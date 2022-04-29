@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  /* height: 1200vh; */
+  background-color: #f1f2f3;
+  font-family: "Nunito", sans-serif;
+}
+
+/* Login */
+.bgImage-login {
+  background: url('https://images.unsplash.com/photo-1515965885361-f1e0095517ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3300&q=80');
+  background-size: cover; 
+  background-position: center center;
+}
+
+/* Nav */
+
+.lang:hover .before-lan {
+  display: block;
+  top: 40px;
+  animation: move-up 0.4s 1 alternate;
+}
+.lang:hover .before-lan2 {
+  display: block;
+  top: 40px;
+  animation: move-up 0.4s 1 alternate;
+}
+
+.before-lan {
+  display: none;
+  transition: 2s all;
+  @apply bg-white absolute -right-[8px] z-[50] text-black text-sm py-3 rounded-lg;
+}
+
+.before-lan2 {
+  display: none;
+  transition: 2s all;
+  @apply bg-white absolute z-[50] text-black text-sm py-3 rounded-lg;
+  @apply -right-[25px] w-44;
+}
+
+.before-lan3 {
+  @apply -right-[16px];
+}
+
+.before-lan::before {
+  content: "";
+  position: absolute;
+  left: 30%;
+  bottom: 64px;
+  border: 10px solid #fff;
+  border-color: transparent transparent #fff transparent;
+}
+
+.before-lan2::before {
+  content: "";
+  position: absolute;
+  left: 71%;
+  top: -20%;
+  border: 12px solid rgb(0, 0, 0);
+  border-color: transparent transparent rgb(255, 255, 255) transparent;
+}
+
+.before-lan3::before {
+  content: "";
+  position: absolute;
+  left: 80%;
+  bottom: 132px;
+  border: 12px solid rgb(255, 255, 255);
+  border-color: transparent transparent rgb(255, 255, 255) transparent;
+}
+
+.list-name {
+  display: flex;
+}
+.list-name p:nth-child(1) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 41px;
+  height: 39px;
+  border-radius: 50%;
+  background-color: #304aca;
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.list-name p:nth-child(2) {
+  font-size: 12px;
+}
+
+@keyframes move-up {
+  0% {
+    top: 50px;
+  }
+  100% {
+    top: 40px;
+  }
+}
+
+/* Nav */
+
+.sidebar {
+  /* flex: .8; */
+  /* position: fixed;
+  top: 125px; */
+  /* top: 0;
+  left: 0;
+  */
+
+  transition: 1s all;
+  overflow-y: scroll;
+  position: sticky;
+  top: 80px;
+  height: 100vh;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 0.2rem;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  border: 2px solid #f1f2f3;
+  box-shadow: inset 0 0 2.5px 2px rgba(0, 0, 0, 0.5);
+  border-radius: 0.5rem;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  /* background: linear-gradient(90deg, #dfd6db, #9ca1a7); */
+  background-color: rgb(197, 197, 197);
+  border-radius: 0.2rem;
+}
+
+.homecontent {
+  flex: 4;
+}
+
+.active {
+  @apply bg-slate-300;
+}
+
+/* 
+لوحة التحكم
+المستخدمين
+المرضى
+الحجوزات
+الفحوصات المخبرية
+صور الاشعة 
+الادوية
+المصروفات
+
+*/
+.btn {
+  padding: 0.4375rem 1.25rem;
+  text-shadow: none;
+  font-size: 14px;
+  color: #3b3f5c;
+  font-weight: normal;
+  white-space: normal;
+  word-wrap: break-word;
+  transition: 0.2s ease-out;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-color: #f1f2f3;
+  box-shadow: 0px 5px 20px 0 rgb(0 0 0 / 10%);
+  will-change: opacity, transform;
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  color: #fff !important;
+  background-color: #4361ee !important;
+  border-color: #4361ee;
+  box-shadow: 0 10px 20px -10px #4361ee;
+}
+
+.justify-between.pb-6 label {
+  font-size: 13px;
+  margin-bottom: 0;
+  color: #888ea8;
+}
+
+.form-control {
+  padding: 7px 18px;
+  border: 1px solid #d1d1d1;
+  border-radius: 7px;
+  text-align: left;
+}
+.form-control:focus {
+  outline: 1px solid rgb(170, 170, 170);
+}
+
+/* Input */
+
+.input- {
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-weight: 400;
+  color: #212529;
+  border: 1px solid #e9ecef;
+  background-color: #fff;
+  font-size: 14px;
+}
