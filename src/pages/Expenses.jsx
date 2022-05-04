@@ -4,37 +4,22 @@ import { BsPencil } from 'react-icons/bs'
 import { RiDeleteBin5Line } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../redux/userSlice'
-import Modals from '../components/AddPhrmaceutical'
 import { useState } from 'react'
+import AddPhrmaceutical from '../components/AddPhrmaceutical'
 import axios from 'axios'
 
-const XRayPictures = () => {
-
-
-  const dispatch = useDispatch()
-
+const Expenses = () => {
 
   const [dataUser, setDataUser] = useState([])
-  const [userInfo, setUserInfo] = useState({})
-  const [showModal, setShowModal] = useState(false)
-  const [showModalDelete, setShowModalDelete] = useState(false)
+  const dispatch = useDispatch()
 
   const editPatients = () => {
     // dispatch(login())
   }
 
-  const deletePatients = async () => {
-
-    // 
-
-    // app.medical-clinic.tk
-  }
-
-  // const [showModal, setShowModal] = useState(false)
-
   useEffect(() => {
     let isApiSubscribed = true;
-    const api = 'https://app.medical-clinic.tk/api/xrays';
+    const api = 'https://app.medical-clinic.tk/api/expenses';
     const token = JSON.parse(sessionStorage.getItem('token'));
     axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
       .then(res => {
@@ -47,19 +32,26 @@ const XRayPictures = () => {
       });
     return () => isApiSubscribed = false;
   }, [])
+  const deletePatients = async () => {
+  }
 
-  const addXRayPictures = () => {
+  const [showModal, setShowModal] = useState(false)
+
+  const addExpenses = () => {
     setShowModal(true)
   }
+
 
   const rows = dataUser.map((row, i) => (
     <tr key={i}>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
-        <div className="flex items-center">
-          <p className="text-gray-900 whitespace-no-wrap">
-            {row.name}
-          </p>
-        </div>
+        <p className="text-gray-900 whitespace-no-wrap">{row.name}</p>
+      </td>
+      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+        <p className="text-gray-900 whitespace-no-wrap">{row.value}</p>
+      </td>
+      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+        <p className="text-gray-900 whitespace-no-wrap">{row.notes}</p>
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-xl flex items-center justify-around ">
         <BsPencil className='cursor-pointer' onClick={() => editPatients()} />
@@ -68,9 +60,10 @@ const XRayPictures = () => {
     </tr>
   ))
 
+
   return (
     <div>
-      <div className="bg-white p-8 rounded-md ">
+      <div className="bg-white p-8 rounded-md w-full">
         <div className=" flex items-center justify-between pb-6">
           <div>
             {/* <h2 className="text-gray-600 font-semibold">Products Oder</h2> */}
@@ -96,13 +89,13 @@ const XRayPictures = () => {
                 <input className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" id="" placeholder="search by name..." />
               </div>
             </div>
-            <button className='btn' onClick={() => addXRayPictures()}>Add X-Ray Pictures</button>
-            <Modals showModal={showModal} setShowModal={setShowModal} />
+            <button className='btn' onClick={() => addExpenses()}>Add Expenses</button>
+            <AddPhrmaceutical showModal={showModal} setShowModal={setShowModal} />
           </div>
-        </div>
 
-        <div className='w-full mx-auto'>
-          <div className=" px-4 py-5 overflow-x-auto w-[100%] mx-auto">
+        </div>
+        <div>
+          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
               <table className="min- w-full leading-normal text-c enter">
                 <thead>
@@ -110,6 +103,14 @@ const XRayPictures = () => {
                     <th
                       className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Name
+                    </th>
+                    <th
+                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      value
+                    </th>
+                    <th
+                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      notes
                     </th>
                     <th
                       className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -144,10 +145,9 @@ const XRayPictures = () => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   )
 }
 
-export default XRayPictures
+export default Expenses

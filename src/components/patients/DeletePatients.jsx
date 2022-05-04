@@ -1,27 +1,26 @@
-import axios from "axios"
-import { useEffect } from "react"
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { deleteElement, deleteToast } from '../../redux/userSlice'
 
-const DeleteUser = ({ showModal, setShowModal, userInfo }) => {
-  
-  const deleteUser = async (e) => {
-    const api = 'https://app.medical-clinic.tk/api/users/5/delete';
-    const token = JSON.parse(sessionStorage.getItem('token'));
-    await axios.delete(api, { headers: { "Authorization": `Bearer ${token}` } })
-      .then(res => {
-          console.log(res)
-      })
-      .catch((error) => {
-        console.log(error)
-      });
+const DeletePatients = ({ showModalDelete, setShowModalDelete, patientInfo, setDone }) => {
 
-    setShowModal(false)
+  const dispatch = useDispatch()
+  const deleteUser = () => {
+    
+    const api = `https://app.medical-clinic.tk/api/customers/${patientInfo.id}/delete`;
+
+    const data = {api , patientInfo}
+
+    dispatch(deleteElement(data))
+    setDone(true)
+    setShowModalDelete(false)
+    dispatch(deleteToast())
   }
 
-
   return (
-    showModal ? (
+    showModalDelete ? (
       <div className="fixed inset-0 z-50 overflow-y-auto">
-        <div className="fixed inset-0 w-full h-full bg-black opacity-40" onClick={() => setShowModal(false)}></div>
+        <div className="fixed inset-0 w-full h-full bg-black opacity-40" onClick={() => setShowModalDelete(false)}></div>
         <div className="flex items-center min-h-screen px-4 py-8">
           <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
             <div className="mt-3 sm:flex">
@@ -32,7 +31,7 @@ const DeleteUser = ({ showModal, setShowModal, userInfo }) => {
               </div>
               <div className="mt-2 text-center sm:ml-4 sm:text-left">
                 <h4 className="text-lg font-medium text-gray-800">
-                  Delete account {userInfo.name} ?
+                  Delete account {patientInfo && patientInfo.name} ?
                 </h4>
                 <p className="mt-2 text-[15px] leading-relaxed text-gray-500">
                   Are You Sure ! 
@@ -40,12 +39,12 @@ const DeleteUser = ({ showModal, setShowModal, userInfo }) => {
                 </p>
                 <div className="items-center gap-2 mt-3 sm:flex">
                   <button className="w-full mt-2 p-2.5 flex-1 text-white bg-red-600 rounded-md outline-none ring-offset-2 ring-red-600 focus:ring-2"
-                    onClick={() => deleteUser(userInfo)}
+                    onClick={() => deleteUser(patientInfo)}
                   >
                     Delete
                   </button>
                   <button className="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => setShowModalDelete(false)}
                   >
                     Cancel
                   </button>
@@ -59,4 +58,4 @@ const DeleteUser = ({ showModal, setShowModal, userInfo }) => {
   )
 }
 
-export default DeleteUser
+export default DeletePatients

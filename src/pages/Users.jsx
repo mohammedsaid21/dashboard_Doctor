@@ -1,10 +1,9 @@
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import React, { useCallback } from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
-import {  AiOutlineEye } from 'react-icons/ai'
-import { BsPencil } from 'react-icons/bs'
+
+import { AiOutlineEye } from 'react-icons/ai'
 import { RiDeleteBin5Line } from 'react-icons/ri'
+
 import DeleteUser from '../components/user/DeleteUser'
 import ShowInfo from '../components/user/ShowInfo'
 
@@ -12,15 +11,17 @@ const Users = () => {
 
   const [dataUser, setDataUser] = useState([])
   const [userInfo, setUserInfo] = useState({})
-  const [showModal , setShowModal] = useState(false)
-  const [showModalDelete , setShowModalDelete] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [showModalDelete, setShowModalDelete] = useState(false)
+
+  const [search, setSearch] = useState('')
 
   const showDetails = (e) => {
     setShowModal(true)
     setUserInfo(e)
   }
 
-  const editUser = async () => {
+  const editUser = () => {
   }
 
   const deleteUser = (e) => {
@@ -44,48 +45,45 @@ const Users = () => {
     return () => isApiSubscribed = false;
   }, [])
 
-
+  // animated usenavtiveDriver was not specified. this is a required option and must be explicitly
 
   // app.medical-clinic.tk
-
-  const arr = [0, 1, 2]
-
+  // const { Name,phone, email, gender, birthdate, Actions} = userInfo
+  
+// .filter(name => name.name.includes(search))
   const rows = dataUser.map((row, i) => (
     <tr className='' key={i}>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
         <div className="flex items-center">
-          <img src='https://via.placeholder.com/30' className='rounded-2xl mx-1' alt='' />
+          <img src={row.image} className='rounded-2xl mx-1' alt='' />
           <p className="text-gray-900 whitespace-no-wrap">
-            Vera Carpenter
+            {row.name}
           </p>
         </div>
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">+970595573717</p>
-      </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
         <p className="text-gray-900 whitespace-no-wrap">
-          gasdhjgashj@
+          { row.phone ? row.phone : "No Exist" }
         </p>
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
         <p className="text-gray-900 whitespace-no-wrap">
-          male
+          {row.email}
         </p>
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
         <p className="text-gray-900 whitespace-no-wrap">
-          Jan 21, 2000
-        </p>
+          {row.gender}
+        </p> 
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
         <p className="text-gray-900 whitespace-no-wrap">
           Admin
         </p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm fle x items-center justify-between ">
-        <AiOutlineEye className='cursor-pointer inline-block w-' onClick={() => showDetails(row)} />
-        <BsPencil className='cursor-pointer inline-block w-' onClick={() => editUser(row)} />
+      <td className="px-5 py-3 border-b border-gray-200 bg-white text-md fle x items-center justify-between ">
+        <AiOutlineEye className='cursor-pointer inline-block mr-4' onClick={() => showDetails(row)} />
+        {/* <BsPencil className='cursor-pointer inline-block w-' onClick={() => editUser(row)} /> */}
         <RiDeleteBin5Line className='cursor-pointer inline-block w-' onClick={() => deleteUser(row)} />
       </td>
     </tr>
@@ -114,7 +112,7 @@ const Users = () => {
                   d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                   clipRule="evenodd" />
               </svg>
-              <input className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" id="" placeholder="search by name..." />
+              <input value={search} onChange={e => setSearch(e.target.value)} className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" id="" placeholder="search by name..." />
             </div>
           </div>
         </div>
@@ -141,10 +139,6 @@ const Users = () => {
                     <th
                       className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       gender
-                    </th>
-                    <th
-                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      birthdate
                     </th>
                     <th
                       className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -181,8 +175,8 @@ const Users = () => {
             </div>
           </div>
         </div>
-        <ShowInfo userInfo={userInfo} showModal={showModal}  setShowModal={setShowModal} />
-        <DeleteUser userInfo={userInfo} showModal={showModalDelete}  setShowModal={setShowModalDelete} />
+        <ShowInfo userInfo={userInfo} showModal={showModal} setShowModal={setShowModal} />
+        <DeleteUser userInfo={userInfo} showModal={showModalDelete} setShowModal={setShowModalDelete} />
 
       </div>
     </div>

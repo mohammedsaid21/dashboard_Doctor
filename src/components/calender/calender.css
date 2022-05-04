@@ -7,28 +7,34 @@
   justify-content: space-between;
 }
 #header button {
-  background-color:#92a1d1;
+  /* background-color:#bec3d6; */
 }
 #container {
-  width: 770px;
+  width: 920px;
+  margin: auto;
 }
+
 #weekdays {
   width: 100%;
   display: flex;
+  justify-content: space-between;
   color: #247BA0;
 }
+
 #weekdays div {
-  width: 100px;
-  padding: 10px;
+  width: calc(100% / 7);
+  padding: 10px 0;
 }
+
 #calendar {
   width: 100%;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
 }
+
 .day {
-  width: 100px;
+  width: 120px;
   padding: 10px;
   height: 100px;
   cursor: pointer;

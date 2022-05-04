@@ -8,22 +8,24 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 
 function App() {
-  let token = sessionStorage.getItem("token");
 
   const [userInfo4 , setUserInfo4] = useState('')
-
   const userInfo10 = useSelector(state => state.user.userInfo)
+  const [completed, setcompleted] = useState(false);
 
   useEffect(() => {
     setUserInfo4(userInfo10)
+    setTimeout(() => {
+      setcompleted(true);
+    }, 1000);
   }, [userInfo10])
 
   return (
     <>
       {
-        userInfo4 ? <Home /> : <Login />
+        userInfo4 ? <Home completed={completed} setcompleted={setcompleted} /> : <Login />
       }
-      {/* <Login /> */}
+
       {/* <Routes> */}
       {/* <Route path='/' element={<Home />} /> */}
       {/* <Route path="/" element={<Home />} /> */}

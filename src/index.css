@@ -7,13 +7,56 @@ body {
   background-color: #f1f2f3;
   font-family: "Nunito", sans-serif;
 }
+/* Loader */
 
+.main-loader {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: all;
+  z-index: 10000;
+}
+
+.loader {
+  width: 100%;
+  height: 25%;
+  background: #212121;
+  position: relative;
+  float: left;
+  animation: goToRight 1s 1s forwards;
+  right: 0;
+}
+
+@keyframes goToRight {
+  to {
+    right: -100%;
+  }
+}
+
+.loader:nth-child(2) {
+  animation-delay: 1.3s;
+}
+
+.loader:nth-child(3) {
+  animation-delay: 1.5s;
+}
+
+.loader:nth-child(4) {
+  animation-delay: 1.7s;
+}
+
+
+
+/* Loader */
 /* Login */
 .bgImage-login {
   background: url('https://images.unsplash.com/photo-1515965885361-f1e0095517ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3300&q=80');
   background-size: cover; 
   background-position: center center;
 }
+/*  */
 
 /* Nav */
 
@@ -115,7 +158,7 @@ body {
   overflow-y: scroll;
   position: sticky;
   top: 80px;
-  height: 100vh;
+  height: 75vh;
 }
 
 .sidebar::-webkit-scrollbar {
@@ -201,4 +244,25 @@ body {
   border: 1px solid #e9ecef;
   background-color: #fff;
   font-size: 14px;
+}
+
+.wronge {
+  animation: wrongeA .15s 3 alternate;
+}
+
+@keyframes wrongeA {
+  0% {
+    /* margin-left: 1rem; */
+    transform: translateX(5px);
+  }
+  /* 25% {
+    margin-left: 1.5rem;
+  }
+  75% {
+    margin-left: -1.5rem;
+  } */
+  100% {
+    /* margin-left: 1rem; */
+    transform: translateX(-5px);
+  }
 }

@@ -1,51 +1,59 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { AiOutlineEye } from 'react-icons/ai'
 import { BsPencil } from 'react-icons/bs'
 import { RiDeleteBin5Line } from 'react-icons/ri'
-import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../redux/userSlice'
-import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import AddPhrmaceutical from '../components/AddPhrmaceutical'
+import axios from 'axios'
 
 const Pharmaceutical = () => {
 
+  const [showModal, setShowModal] = useState(false)
+  const [data, setData] = useState([])
+  const [search, setSearch] = useState('')
 
-  const dispatch = useDispatch()
+  useEffect(() => {
+    let isApiSubscribed = true;
+    const api = 'https://app.medical-clinic.tk/api/medicines';
+    const token = JSON.parse(sessionStorage.getItem('token'));
+    axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
+      .then(res => {
+        if (isApiSubscribed) {
+          setData(res.data.data)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    return () => isApiSubscribed = false;
+  }, [])
 
   const editPatients = () => {
-    dispatch(login())
+    
   }
-
-
 
   const deletePatients = async () => {
-    // const res = await fetch('https://app.medical-clinic.tk/api/users')
-    // const data = await res.json()
-
-    // console.log(data)
-
+    
     // app.medical-clinic.tk
   }
-
-  const [showModal, setShowModal] = useState(false)
 
   const addPharmaceutical = () => {
     setShowModal(true)
   }
 
-  const data = [0, 1, 2]
 
-  const rows = data.map((row, i) => (
+
+  const rows = data.filter(name => name.name.includes(search)).map((row, i) => (
     <tr key={i}>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
         <div className="flex items-center">
           <p className="text-gray-900 whitespace-no-wrap">
-            ansolen
+            {row.name}
           </p>
         </div>
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">No instructions</p>
+        <p className="text-gray-900 whitespace-no-wrap">{row.instructions || "There Is No"}</p>
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-xl flex items-center justify-around ">
         <BsPencil className='cursor-pointer' onClick={() => editPatients()} />
@@ -79,7 +87,7 @@ const Pharmaceutical = () => {
                     d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                     clipRule="evenodd" />
                 </svg>
-                <input className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" id="" placeholder="search by name..." />
+                <input value={search} onChange={e => setSearch(e.target.value)} className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" id="" placeholder="search by name..." />
               </div>
             </div>
             <button className='btn' onClick={() => addPharmaceutical()}>Add Pharmaceutical</button>
@@ -110,7 +118,7 @@ const Pharmaceutical = () => {
                 <tbody>
                   {/* Name	Position	Office	Age	Start date	Salary	Action */}
 
-                  {rows}
+                  {rows.length === 0 ? rows : <h3 className='text-center w-[300%] py-10 flex justify-center'>There Is No Result</h3>}
 
                 </tbody>
               </table>

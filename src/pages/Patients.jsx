@@ -1,84 +1,101 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineEye } from 'react-icons/ai'
 import { BsPencil } from 'react-icons/bs'
 import { RiDeleteBin5Line } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
-// import { accessToken } from '../env'
+import DeletePatients from '../components/patients/DeletePatients'
+import ShowInfo from '../components/patients/ShowInfo'
+import NewPatients from '../components/patients/NewPatients'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Patients = () => {
 
-  const showDetails = (e) => {
-    console.log(e)
-  }
-
   const dispatch = useDispatch()
 
-  const editPatients = () => {
-    
+  const [dataUser, setDataUser] = useState([])
+  const [showModal, setShowModal] = useState(false)
+  const [showModalDelete, setShowModalDelete] = useState(false)
+  const [userInfo, setUserInfo] = useState({})
+  const [search, setSearch] = useState('')
+  const [done, setDone] = useState(false)
+
+  // For Post 
+  const [showAddPatients, setShowAddPatients] = useState(false)
+
+  useEffect(() => {
+    let isApiSubscribed = true;
+    const api = `https://app.medical-clinic.tk/api/customers?search=${search}`;
+    const token = JSON.parse(sessionStorage.getItem('token'));
+    axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
+    .then(res => {
+      if (isApiSubscribed) {
+        setDataUser(res.data.data)
+        setDone(false)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    return () => isApiSubscribed = false;
+  }, [done, search])
+
+  const showDetails = (e) => {
+    setUserInfo(e)
+    setShowModal(true)
   }
 
-  // axios.interceptors.request.use(
-  //   config => {
-  //     config.headers.authorization = accessToken
-  //     return config
-  //   }, 
-  //   error => {
-  //     return Promise.reject(error)
-  //   }
-  // )
 
-  const deletePatients = async () => {
-    try {
-      const result = await axios.get('https://app.medical-clinic.tk/api/customers')
-      console.log(result)
-    } catch (err) {
-      console.log(err.message)
-    }
-
+  const deletePatients = (e) => {
+    setShowModalDelete(true)
+    setUserInfo(e)
     // app.medical-clinic.tk
   }
 
+  const newPatients = (e) => {
+    setShowAddPatients(true)
+  }
 
-  const data = [0, 1, 2]
 
-  const rows = data.map((row, i) => (
-    <tr key={i}>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+// .filter(name => name.name.includes(search))
+  const rows = dataUser.map((row, i) => (
+    <tr className='hover:bg-sky-100 transition-all duration-200' key={i}>
+      <td className="pl-3 py-3 border-b border-gray-200 text-sm">
         <div className="flex items-center">
           <p className="text-gray-900 whitespace-no-wrap">
-            Vera Carpenter
+            {row.name}
           </p>
         </div>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">+970595573717</p>
+      <td className="pl-3 py-3 border-b border-gray-200 text-sm">
+        <p className="text-gray-900 whitespace-no-wrap">{row.phone1}</p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+      <td className="pl-3 py-3 border-b border-gray-200 text-sm">
         <p className="text-gray-900 whitespace-no-wrap">
-          gasdhjgashj@
+          {row.email}
         </p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+      <td className="pl-3 py-3 border-b border-gray-200 text-sm">
         <p className="text-gray-900 whitespace-no-wrap">
-          male
+          {row.gender}
         </p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+      <td className="pl-3 py-3 border-b border-gray-200 text-sm">
         <p className="text-gray-900 whitespace-no-wrap">
-          Jan 21, 2020
+          {row.created_at}
+          {/* row.created_at.length.substr(0, 18) */}
         </p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+      <td className="pl-3 py-3 border-b border-gray-200 text-sm">
         <p className="text-gray-900 whitespace-no-wrap">
-          B
+          {row.blood_type}
         </p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-md ">
+      <td className="px-5 py-3 border-b border-gray-200 text-md ">
         <AiOutlineEye className='cursor-pointer inline-block' onClick={() => showDetails(row)} />
-        <BsPencil className='cursor-pointer inline-block' onClick={() => editPatients()} />
-        <RiDeleteBin5Line className='cursor-pointer inline-block' onClick={() => deletePatients()} />
+        <RiDeleteBin5Line className='cursor-pointer inline-block' onClick={() => deletePatients(row)} />
       </td>
     </tr>
   ))
@@ -90,7 +107,7 @@ const Patients = () => {
           <div>
             {/* <h2 className="text-gray-600 font-semibold">Products Oder</h2> */}
             <label>Results :
-              <select name="default-ordering_length" aria-controls="default-ordering" className="form-control">
+              <select className="form-control">
                 <option value="7">7</option>
                 <option value="10">10</option>
                 <option value="20">20</option>
@@ -106,13 +123,15 @@ const Patients = () => {
                   d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                   clipRule="evenodd" />
               </svg>
-              <input className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" id="" placeholder="search by name..." />
+              <input value={search} onChange={e => setSearch(e.target.value)} className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" id="" placeholder="search by name..." />
             </div>
-
+            <button className='btn' onClick={() => newPatients()}>Add Patients</button>
+            <NewPatients setDone={setDone} showAddPatients={showAddPatients} setShowAddPatients={setShowAddPatients} />
           </div>
+
         </div>
         <div>
-          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+          <div className=" -mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
               <table className="min- w-full leading-normal text-center">
                 <thead>
@@ -135,8 +154,8 @@ const Patients = () => {
                       gender
                     </th>
                     <th
-                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      birthdate
+                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-xs font-semibold text-gray-600 uppercase tracking-wider  text-center">
+                      Created At
                     </th>
                     <th
                       className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -151,12 +170,12 @@ const Patients = () => {
                 <tbody>
                   {/* Name	Position	Office	Age	Start date	Salary	Action */}
 
-                  {rows}
+            {rows}
 
                 </tbody>
               </table>
               <div
-                className="px-5 py-3 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+                className="px-5 py-3 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                 <span className="text-xs xs:text-sm text-gray-900">
                   Showing 1 to 4 of 50 Entries
                 </span>
@@ -175,7 +194,10 @@ const Patients = () => {
             </div>
           </div>
         </div>
+        <ShowInfo setDone={setDone} userInfo={userInfo} setUserInfo={setUserInfo} showModal={showModal} setShowModal={setShowModal} />
+        <DeletePatients setDone={setDone} patientInfo={userInfo} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} />
       </div>
+        <ToastContainer />
     </div>
   )
 }

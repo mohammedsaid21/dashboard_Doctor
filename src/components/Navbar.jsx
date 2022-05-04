@@ -7,7 +7,7 @@ import { BsInbox } from 'react-icons/bs'
 import { VscSignOut } from 'react-icons/vsc'
 import { IoPersonOutline } from 'react-icons/io5'
 import { useDispatch } from 'react-redux'
-import { logOut } from '../redux/userSlice'
+import { logout } from '../redux/userSlice'
 
 
 const Navbar = () => {
@@ -26,10 +26,10 @@ const Navbar = () => {
   const hideMenu = () => {
     if (document.querySelector('.sidebar').classList[5] === 'w-0') {
       document.querySelector('.sidebar').classList.remove('w-0')
-      document.querySelector('.sidebar').classList.add('w-[350px]')
+      document.querySelector('.sidebar').classList.add('w-[230px]')
     }
-    else if (document.querySelector('.sidebar').classList[5] === 'w-[350px]') {
-      document.querySelector('.sidebar').classList.remove('w-[350px]')
+    else if (document.querySelector('.sidebar').classList[5] === 'w-[230px]') {
+      document.querySelector('.sidebar').classList.remove('w-[230px]')
       document.querySelector('.sidebar').classList.add('w-0')
     }
 
@@ -37,7 +37,7 @@ const Navbar = () => {
 
   const dispatch = useDispatch()
   const logout_Acount = () => {
-    dispatch(logOut())
+    dispatch(logout())
   }
 
   return (

@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom'
 const Sidebar = () => {
 
   return (
-    <div className='sidebar pl-8 pt-6 border-r-2 border-slate-300 w-20 md:w-[350px]'>
+    <div className='sidebar pl-8 pt-6 border-r-2 border-slate-300 w-[230px]'>
 
       <NavLink to='/' className='flex items-center justify-between w-[85%] px-3 py-3 text-[12px] hover:bg-slate-300 transition-all duration-500 cursor-pointer rounded-xl mb-1'>
         <BiHomeAlt className='text-xl text-[#506690]' />
