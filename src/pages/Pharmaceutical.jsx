@@ -3,47 +3,62 @@ import { AiOutlineEye } from 'react-icons/ai'
 import { BsPencil } from 'react-icons/bs'
 import { RiDeleteBin5Line } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
-import AddPhrmaceutical from '../components/AddPhrmaceutical'
+import AddPhrmaceutical from '../components/pharmaceutical/AddPhrmaceutical'
 import axios from 'axios'
+import ShowInfo from '../components/pharmaceutical/ShowInfo'
+import { ToastContainer } from 'react-toastify'
+import DeletePharmce from '../components/pharmaceutical/DeletePharmce'
 
 const Pharmaceutical = () => {
 
+  const dispatch = useDispatch()
+
+  const [dataUser, setDataUser] = useState([])
   const [showModal, setShowModal] = useState(false)
-  const [data, setData] = useState([])
+  const [showModalDelete, setShowModalDelete] = useState(false)
+  const [userInfo, setUserInfo] = useState({})
   const [search, setSearch] = useState('')
+  const [done, setDone] = useState(false)
+
+  // For Post 
+  const [showAddPharmce, setShowAddPharmce] = useState(false)
 
   useEffect(() => {
     let isApiSubscribed = true;
-    const api = 'https://app.medical-clinic.tk/api/medicines';
+    const api = `https://app.medical-clinic.tk/api/medicines`;
     const token = JSON.parse(sessionStorage.getItem('token'));
     axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
       .then(res => {
         if (isApiSubscribed) {
-          setData(res.data.data)
+          setDataUser(res.data.data)
+          setDone(false)
         }
       })
       .catch((error) => {
         console.log(error)
       });
     return () => isApiSubscribed = false;
-  }, [])
+  }, [done, search])
 
-  const editPatients = () => {
-    
-  }
-
-  const deletePatients = async () => {
-    
-    // app.medical-clinic.tk
-  }
-
-  const addPharmaceutical = () => {
+  const editPharmce = (e) => {
+    setUserInfo(e)
     setShowModal(true)
   }
 
 
+  const deletePharmce = (e) => {
+    setShowModalDelete(true)
+    setUserInfo(e)
+    // app.medical-clinic.tk
+  }
 
-  const rows = data.filter(name => name.name.includes(search)).map((row, i) => (
+  const newPharmce = (e) => {
+    setShowAddPharmce(true)
+  }
+
+
+
+  const rows = dataUser.map((row, i) => (
     <tr key={i}>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
         <div className="flex items-center">
@@ -56,8 +71,8 @@ const Pharmaceutical = () => {
         <p className="text-gray-900 whitespace-no-wrap">{row.instructions || "There Is No"}</p>
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-xl flex items-center justify-around ">
-        <BsPencil className='cursor-pointer' onClick={() => editPatients()} />
-        <RiDeleteBin5Line className='cursor-pointer' onClick={() => deletePatients()} />
+        <BsPencil className='cursor-pointer' onClick={() => editPharmce()} />
+        <RiDeleteBin5Line className='cursor-pointer' onClick={() => deletePharmce()} />
       </td>
     </tr>
   ))
@@ -90,7 +105,7 @@ const Pharmaceutical = () => {
                 <input value={search} onChange={e => setSearch(e.target.value)} className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" id="" placeholder="search by name..." />
               </div>
             </div>
-            <button className='btn' onClick={() => addPharmaceutical()}>Add Pharmaceutical</button>
+            <button className='btn' onClick={() => newPharmce()}>Add Pharmaceutical</button>
             <AddPhrmaceutical showModal={showModal} setShowModal={setShowModal} />
           </div>
 
@@ -142,7 +157,10 @@ const Pharmaceutical = () => {
             </div>
           </div>
         </div>
+        <ShowInfo setDone={setDone} userInfo={userInfo} setUserInfo={setUserInfo} showModal={showModal} setShowModal={setShowModal} />
+        <DeletePharmce setDone={setDone} patientInfo={userInfo} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} />
       </div>
+      <ToastContainer />
     </div>
   )
 }

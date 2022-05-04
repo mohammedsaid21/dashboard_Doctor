@@ -11,14 +11,15 @@ function App() {
 
   const [userInfo4 , setUserInfo4] = useState('')
   const userInfo10 = useSelector(state => state.user.userInfo)
-  const [completed, setcompleted] = useState(false);
+  const [completed, setcompleted] = useState(true);
 
   useEffect(() => {
     setUserInfo4(userInfo10)
-    setTimeout(() => {
-      setcompleted(true);
-    }, 1000);
   }, [userInfo10])
+
+  setTimeout(() => {
+    setcompleted(false);
+  }, 1300);
 
   return (
     <>

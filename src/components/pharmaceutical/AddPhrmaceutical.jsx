@@ -1,21 +1,21 @@
 import { useDispatch } from 'react-redux'
-import { useState } from "react"
-import { createPatients } from '../redux/userSlice'
+import { useRef, useState } from "react"
+import { createElement, sucsessToast } from '../../redux/userSlice'
 
-const AddPhrmaceutical = ({ showModal, setShowModal }) => {
+const AddPhrmaceutical = ({ showModal, setShowModal, setDone }) => {
 
   const [phrmace, setPhrmace] = useState({name: "", instruction: ""})
 
   const handleChange = (e) => {
-    setPhrmace({ ...phrmace, [e.target.name]: e.target.value,
-        [e.target.instruction]: e.target.value})
+    setPhrmace({ ...phrmace, [e.target.name]: e.target.value, [e.target.instruction]: e.target.value})
     console.log(phrmace)
   }
   
-  const onlySpaces = (str) => str.trim().length > 0
+  const onlySpaces = (str) => str.trim().length > 2
+  const error = useRef()
+  const [wronge, setWrong] = useState('')
 
   const dispatch = useDispatch()
-
   const api = 'https://app.medical-clinic.tk/api/customers/create'
 
   const submitInfo = (e) => {
@@ -25,7 +25,13 @@ const AddPhrmaceutical = ({ showModal, setShowModal }) => {
 
     const data = {api, info}
     if (onlySpaces(phrmace.name) && onlySpaces(phrmace.instruction) ) {
-      dispatch(createPatients(data))
+      dispatch(createElement(data))
+      setDone(true)
+      setShowModal(false)
+      dispatch(sucsessToast())
+    } else {
+      error.current.innerHTML = 'Be Sure From You Info'
+      setWrong('wronge')
     }
     setShowModal(false)
     setPhrmace({name: "", instruction: ""})
@@ -42,7 +48,7 @@ const AddPhrmaceutical = ({ showModal, setShowModal }) => {
       <div className="fixed inset-0 z-50 overflow-y-auto">
         <div className="fixed inset-0 w-full h-full bg-black opacity-40" onClick={() => closeModal()}></div>
         <div className="flex items-center min-h-screen px-4 py-8">
-          <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+          <div className={`relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg ${wronge}`}>
             <form onSubmit={submitInfo} className="mt-3">
                 <input
                   type="text"

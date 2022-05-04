@@ -6,50 +6,55 @@ import { RiDeleteBin5Line } from 'react-icons/ri'
 
 import DeleteUser from '../components/user/DeleteUser'
 import ShowInfo from '../components/user/ShowInfo'
+import NewUser from '../components/user/NewUser'
+import { ToastContainer } from 'react-toastify'
 
 const Users = () => {
 
   const [dataUser, setDataUser] = useState([])
-  const [userInfo, setUserInfo] = useState({})
   const [showModal, setShowModal] = useState(false)
   const [showModalDelete, setShowModalDelete] = useState(false)
-
+  const [userInfo, setUserInfo] = useState({})
   const [search, setSearch] = useState('')
+  const [done, setDone] = useState(false)
+
+  // For Post 
+  const [showAddUser, setShowAddUser] = useState(false)
+
 
   const showDetails = (e) => {
-    setShowModal(true)
     setUserInfo(e)
+    setShowModal(true)
   }
 
-  const editUser = () => {
-  }
 
   const deleteUser = (e) => {
     setShowModalDelete(true)
     setUserInfo(e)
   }
 
-  useEffect(() => {
-    let isApiSubscribed = true;
-    const api = 'https://app.medical-clinic.tk/api/users';
-    const token = JSON.parse(sessionStorage.getItem('token'));
-    axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
-      .then(res => {
-        if (isApiSubscribed) {
-          setDataUser(res.data.data)
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      });
-    return () => isApiSubscribed = false;
-  }, [])
+  const newUser = (e) => {
+    setShowAddUser(true)
+  }
 
-  // animated usenavtiveDriver was not specified. this is a required option and must be explicitly
+useEffect(() => {
+  let isApiSubscribed = true;
+  const api = `https://app.medical-clinic.tk/api/users?search=${search}`;
+  const token = JSON.parse(sessionStorage.getItem('token'));
+  axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
+  .then(res => {
+    if (isApiSubscribed) {
+      setDataUser(res.data.data)
+      setDone(false)
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  return () => isApiSubscribed = false;
+}, [done, search])
 
-  // app.medical-clinic.tk
-  // const { Name,phone, email, gender, birthdate, Actions} = userInfo
-  
+
 // .filter(name => name.name.includes(search))
   const rows = dataUser.map((row, i) => (
     <tr className='' key={i}>
@@ -83,7 +88,6 @@ const Users = () => {
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-md fle x items-center justify-between ">
         <AiOutlineEye className='cursor-pointer inline-block mr-4' onClick={() => showDetails(row)} />
-        {/* <BsPencil className='cursor-pointer inline-block w-' onClick={() => editUser(row)} /> */}
         <RiDeleteBin5Line className='cursor-pointer inline-block w-' onClick={() => deleteUser(row)} />
       </td>
     </tr>
@@ -114,6 +118,8 @@ const Users = () => {
               </svg>
               <input value={search} onChange={e => setSearch(e.target.value)} className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" id="" placeholder="search by name..." />
             </div>
+            <button className='btn' onClick={() => newUser()}>Add Users</button>
+            <NewUser setDone={setDone} showAddUser={showAddUser} setShowAddUser={setShowAddUser} />
           </div>
         </div>
 
@@ -152,7 +158,9 @@ const Users = () => {
                 </thead>
                 <tbody>
                   {/* Name	Position	Office	Age	Start date	Salary	Action */}
+
                   {rows}
+
                 </tbody>
               </table>
               <div
@@ -175,10 +183,10 @@ const Users = () => {
             </div>
           </div>
         </div>
-        <ShowInfo userInfo={userInfo} showModal={showModal} setShowModal={setShowModal} />
-        <DeleteUser userInfo={userInfo} showModal={showModalDelete} setShowModal={setShowModalDelete} />
-
+        <ShowInfo setDone={setDone} userInfo={userInfo} setUserInfo={setUserInfo} showModal={showModal} setShowModal={setShowModal} />
+        <DeleteUser setDone={setDone} userInfo={userInfo} setUserInfo={setUserInfo} showModal={showModalDelete} setShowModal={setShowModalDelete} />
       </div>
+      <ToastContainer />
     </div>
   )
 }

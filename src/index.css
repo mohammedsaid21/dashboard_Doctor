@@ -47,6 +47,58 @@ body {
   animation-delay: 1.7s;
 }
 
+/*  */
+.home {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background: linear-gradient(15deg, #13547a, #80d0c7);
+}
+.loading-container {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin: auto;
+}
+.loading-container .item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid #fff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  animation: spin 2s ease infinite;
+}
+.loading-container .item:nth-child(1) {
+  width: 50px;
+  height: 50px;
+}
+.loading-container .item:nth-child(2) {
+  width: 70px;
+  height: 70px;
+  animation-delay: 0.1s;
+}
+.loading-container .item:nth-child(3) {
+  width: 90px;
+  height: 90px;
+  animation-delay: 0.2s;
+}
+.loading-container .item:nth-child(4) {
+  width: 110px;
+  height: 110px;
+  animation-delay: 0.3s;
+}
+@keyframes spin {
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+}
+
 
 
 /* Loader */
@@ -145,7 +197,6 @@ body {
 }
 
 /* Nav */
-
 .sidebar {
   /* flex: .8; */
   /* position: fixed;
@@ -156,6 +207,7 @@ body {
 
   transition: 1s all;
   overflow-y: scroll;
+  overflow-x: hidden;
   position: sticky;
   top: 80px;
   height: 75vh;

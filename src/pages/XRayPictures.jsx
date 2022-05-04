@@ -4,15 +4,12 @@ import { BsPencil } from 'react-icons/bs'
 import { RiDeleteBin5Line } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../redux/userSlice'
-import Modals from '../components/AddPhrmaceutical'
 import { useState } from 'react'
 import axios from 'axios'
 
 const XRayPictures = () => {
 
-
   const dispatch = useDispatch()
-
 
   const [dataUser, setDataUser] = useState([])
   const [userInfo, setUserInfo] = useState({})
@@ -97,7 +94,6 @@ const XRayPictures = () => {
               </div>
             </div>
             <button className='btn' onClick={() => addXRayPictures()}>Add X-Ray Pictures</button>
-            <Modals showModal={showModal} setShowModal={setShowModal} />
           </div>
         </div>
 

@@ -5,7 +5,6 @@ import { RiDeleteBin5Line } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../redux/userSlice'
 import { useState } from 'react'
-import AddPhrmaceutical from '../components/AddPhrmaceutical'
 import axios from 'axios'
 
 const Expenses = () => {
@@ -90,7 +89,6 @@ const Expenses = () => {
               </div>
             </div>
             <button className='btn' onClick={() => addExpenses()}>Add Expenses</button>
-            <AddPhrmaceutical showModal={showModal} setShowModal={setShowModal} />
           </div>
 
         </div>

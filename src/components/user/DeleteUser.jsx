@@ -1,20 +1,20 @@
 import axios from "axios"
-import { useEffect } from "react"
+import { useDispatch } from 'react-redux'
+import { deleteElement, deleteToast } from '../../redux/userSlice'
 
-const DeleteUser = ({ showModal, setShowModal, userInfo }) => {
+const DeleteUser = ({ showModal, setShowModal, userInfo, setDone  }) => {
   
-  const deleteUser = async (e) => {
-    const api = 'https://app.medical-clinic.tk/api/users/5/delete';
-    const token = JSON.parse(sessionStorage.getItem('token'));
-    await axios.delete(api, { headers: { "Authorization": `Bearer ${token}` } })
-      .then(res => {
-          console.log(res)
-      })
-      .catch((error) => {
-        console.log(error)
-      });
+  const dispatch = useDispatch()
+  const deleteUser = () => {
+    console.log(userInfo)
+    const api = `https://app.medical-clinic.tk/api/users/${userInfo.id}/delete`;
+    
+    const data = {api , userInfo}
 
+    dispatch(deleteElement(data))
+    setDone(true)
     setShowModal(false)
+    dispatch(deleteToast())
   }
 
 

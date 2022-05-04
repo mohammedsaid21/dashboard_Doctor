@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const createPatients = createAsyncThunk(
-  "user/createPatients",
+export const createElement = createAsyncThunk(
+  "user/createElement",
   async (dataObject, thunkAPI) => {
     // const { rejectedWithValue } = thunkAPI;
     // JSON.stringify -> convert the normal code into JSON code
