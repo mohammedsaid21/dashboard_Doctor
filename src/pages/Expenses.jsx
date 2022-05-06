@@ -3,41 +3,59 @@ import { AiOutlineEye } from 'react-icons/ai'
 import { BsPencil } from 'react-icons/bs'
 import { RiDeleteBin5Line } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../redux/userSlice'
+import { getData, login } from '../redux/userSlice'
 import { useState } from 'react'
 import axios from 'axios'
+import AddExpenses from '../components/expenses/AddExpenses'
+import { ToastContainer } from 'react-toastify'
+import ShowInfo from '../components/expenses/ShowInfo'
+import DeleteExpenses from '../components/expenses/DeleteExpenses'
 
 const Expenses = () => {
 
-  const [dataUser, setDataUser] = useState([])
   const dispatch = useDispatch()
 
-  const editPatients = () => {
-    // dispatch(login())
-  }
+  const [dataUser, setDataUser] = useState([])
+  const [userInfo, setUserInfo] = useState({})
+  const [showModal, setShowModal] = useState(false)
+  const [showModalDelete, setShowModalDelete] = useState(false)
+
+  const [search, setSearch] = useState('')
+  const [done, setDone] = useState(false)
+
+  // For Post 
+  const [showAddExpenses, setShowAddExpenses] = useState(false)
 
   useEffect(() => {
     let isApiSubscribed = true;
-    const api = 'https://app.medical-clinic.tk/api/expenses';
+    const api = `https://app.medical-clinic.tk/api/expenses`;
     const token = JSON.parse(sessionStorage.getItem('token'));
+
     axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
       .then(res => {
         if (isApiSubscribed) {
           setDataUser(res.data.data)
+          setDone(false)
         }
       })
       .catch((error) => {
         console.log(error)
       });
     return () => isApiSubscribed = false;
-  }, [])
-  const deletePatients = async () => {
+  }, [done, search])
+
+  const addExpense = () => {
+    setShowAddExpenses(true)
   }
 
-  const [showModal, setShowModal] = useState(false)
-
-  const addExpenses = () => {
+  const editExpense = (e) => {
     setShowModal(true)
+    setUserInfo(e)
+  }
+
+  const deleteExpense = (e) => {
+    setShowModalDelete(true)
+    setUserInfo(e)
   }
 
 
@@ -53,8 +71,8 @@ const Expenses = () => {
         <p className="text-gray-900 whitespace-no-wrap">{row.notes}</p>
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-xl flex items-center justify-around ">
-        <BsPencil className='cursor-pointer' onClick={() => editPatients()} />
-        <RiDeleteBin5Line className='cursor-pointer' onClick={() => deletePatients()} />
+        <BsPencil className='cursor-pointer' onClick={() => editExpense(row)} />
+        <RiDeleteBin5Line className='cursor-pointer' onClick={() => deleteExpense(row)} />
       </td>
     </tr>
   ))
@@ -77,18 +95,8 @@ const Expenses = () => {
           </div>
           <div className=" flex justify-between">
 
-            <div className='flex items-center justify-between mr-8'>
-              <div className="flex bg-gray-50 items-center p-2 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                  fill="currentColor">
-                  <path fillRule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clipRule="evenodd" />
-                </svg>
-                <input className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" id="" placeholder="search by name..." />
-              </div>
-            </div>
-            <button className='btn' onClick={() => addExpenses()}>Add Expenses</button>
+            <button className='btn' onClick={() => addExpense()}>Add Expenses</button>
+            <AddExpenses setDone={setDone} showAddExpenses={showAddExpenses} setShowAddExpenses={setShowAddExpenses} />
           </div>
 
         </div>
@@ -143,7 +151,11 @@ const Expenses = () => {
             </div>
           </div>
         </div>
+        <ShowInfo setDone={setDone} userInfo={userInfo} setUserInfo={setUserInfo} showModal={showModal} setShowModal={setShowModal} />
+        <DeleteExpenses setDone={setDone} userInfo={userInfo} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} />
+
       </div>
+      <ToastContainer />
     </div>
   )
 }

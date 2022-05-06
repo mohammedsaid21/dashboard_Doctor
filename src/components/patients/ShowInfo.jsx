@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { sucsessToast, updateInfo } from '../../redux/userSlice'
+import { updateInfo } from '../../redux/userSlice'
 
 const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) => {
 
@@ -38,7 +38,6 @@ const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) =
     if(flag) {
       const data = { api, updatedObject }
       dispatch(updateInfo(data))
-      dispatch(sucsessToast())
       setDone(true)
       setShowModal(false)
       setFlag(false)
@@ -86,13 +85,13 @@ const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) =
                           </div>
 
                           <div className="md:col-span-3">
-                            <label>Number Phone 1</label>
+                            <label>Number Phone 2</label>
                             <input className='h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center ' onChange={e => handleChange(e)} value={phone2} name='phone2' type="text" placeholder="+1231231235" />
                           </div>
 
                           <div className="md:col-span-3">
                             <label>Birthdate</label>
-                            <input className='h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center ' onChange={e => handleChange(e)} value={birthdate} name='birthdate' type="text" placeholder="+1231231235" />
+                            <input className='h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center ' onChange={e => handleChange(e)} value={birthdate} name='birthdate' type="text" placeholder="0000/00/00" />
                           </div>
 
                           <div className="md:col-span-3">

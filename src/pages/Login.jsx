@@ -1,16 +1,13 @@
-import axios, { Axios } from 'axios'
+import axios from 'axios'
 import React from 'react'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-// import { accessToken, tester } from '../env'
-import { insertProduct, login } from '../redux/userSlice'
+import { useDispatch } from 'react-redux'
+import { login } from '../redux/userSlice'
 
 const Login = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { userInfo } = useSelector(state => state.user)
 
   const dispatch = useDispatch()
 
@@ -26,7 +23,6 @@ const Login = () => {
       }
       else {
         dispatch(login(response.data.token))
-        sessionStorage.setItem("token", JSON.stringify(response.data.token))
       }
     })
 

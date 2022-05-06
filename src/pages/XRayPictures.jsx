@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../redux/userSlice'
 import { useState } from 'react'
 import axios from 'axios'
+import AddXRayPictures from '../components/xray/AddXRayPictures'
+import { ToastContainer } from 'react-toastify'
+import ShowInfo from '../components/xray/ShowInfo'
+import DeleteXray from '../components/xray/DeleteXray'
 
 const XRayPictures = () => {
 
@@ -16,37 +20,43 @@ const XRayPictures = () => {
   const [showModal, setShowModal] = useState(false)
   const [showModalDelete, setShowModalDelete] = useState(false)
 
-  const editPatients = () => {
-    // dispatch(login())
-  }
+  const [search, setSearch] = useState('')
+  const [done, setDone] = useState(false)
 
-  const deletePatients = async () => {
+  // For Post 
+  const [showAddXray, setShowAddXray] = useState(false)
 
-    // 
-
-    // app.medical-clinic.tk
-  }
-
-  // const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     let isApiSubscribed = true;
-    const api = 'https://app.medical-clinic.tk/api/xrays';
+    const api = `https://app.medical-clinic.tk/api/xrays?search=${search}`;
     const token = JSON.parse(sessionStorage.getItem('token'));
     axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
       .then(res => {
         if (isApiSubscribed) {
           setDataUser(res.data.data)
+          setDone(false)
         }
       })
       .catch((error) => {
         console.log(error)
       });
     return () => isApiSubscribed = false;
-  }, [])
+  }, [done, search])
 
-  const addXRayPictures = () => {
+
+  const addXRayPicture = () => {
+    setShowAddXray(true)
+  }
+
+  const editPatients = (e) => {
     setShowModal(true)
+    setUserInfo(e)
+  }
+
+  const deletePatients = (e) => {
+    setShowModalDelete(true)
+    setUserInfo(e)
   }
 
   const rows = dataUser.map((row, i) => (
@@ -59,8 +69,8 @@ const XRayPictures = () => {
         </div>
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-xl flex items-center justify-around ">
-        <BsPencil className='cursor-pointer' onClick={() => editPatients()} />
-        <RiDeleteBin5Line className='cursor-pointer' onClick={() => deletePatients()} />
+        <BsPencil className='cursor-pointer' onClick={() => editPatients(row)} />
+        <RiDeleteBin5Line className='cursor-pointer' onClick={() => deletePatients(row)} />
       </td>
     </tr>
   ))
@@ -90,10 +100,11 @@ const XRayPictures = () => {
                     d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                     clipRule="evenodd" />
                 </svg>
-                <input className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" id="" placeholder="search by name..." />
+                <input value={search} onChange={e => setSearch(e.target.value)} className="bg-gray-50 outline-none ml-1 block text-sm px-2" type="text" name="" placeholder="search by name..." />
               </div>
             </div>
-            <button className='btn' onClick={() => addXRayPictures()}>Add X-Ray Pictures</button>
+            <button className='btn' onClick={() => addXRayPicture()}>Add X-Ray Pictures</button>
+            <AddXRayPictures showAddXray={showAddXray} setShowAddXray={setShowAddXray} setDone={setDone} />
           </div>
         </div>
 
@@ -140,8 +151,12 @@ const XRayPictures = () => {
             </div>
           </div>
         </div>
+        <ShowInfo setDone={setDone} userInfo={userInfo} setUserInfo={setUserInfo} showModal={showModal} setShowModal={setShowModal} />
+        <DeleteXray setDone={setDone} userInfo={userInfo} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} />
+
 
       </div>
+      <ToastContainer />
     </div>
   )
 }

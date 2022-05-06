@@ -46,13 +46,29 @@ body {
 .loader:nth-child(4) {
   animation-delay: 1.7s;
 }
+/* 
+-> 850 تقريبا 
 
+=> لو 200 للاب توب 
+=> هيضل معي 650 
+=> امي 300 شيكل بعطيها 
+=> اخواني بوزع عليهم 200 شيكل 
+=> بيضل معي 150 شيكل اصرف منهن واطلع 50 شيكل لله
+=> بس لازم اشتري اواعي
+=> والقبضة الجاية بجيب الكرسي ان شاء الله
+
+*/
+.z-index {
+  z-index: 100000;
+  @apply fixed inset-0 bg-blue-300 overflow-y-auto;
+}
 /*  */
 .home {
   width: 100vw;
   height: 100vh;
   display: flex;
   background: linear-gradient(15deg, #13547a, #80d0c7);
+  /* filter: blur(3px); */
 }
 .loading-container {
   position: relative;
@@ -317,4 +333,9 @@ body {
     /* margin-left: 1rem; */
     transform: translateX(-5px);
   }
+}
+
+/* Grid-Calender */
+.grid-calender {
+
 }

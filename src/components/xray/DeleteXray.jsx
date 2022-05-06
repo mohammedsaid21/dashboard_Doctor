@@ -2,19 +2,19 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { deleteElement } from '../../redux/userSlice'
 
-const DeletePharmce = ({ showModalDelete, setShowModalDelete, userInfo, setDone }) => {
+const DeleteXray = ({ showModalDelete, setShowModalDelete, userInfo, setDone }) => {
 
   const dispatch = useDispatch()
   const deleteUser = () => {
     
-    const api = `https://app.medical-clinic.tk/api/medicines/${userInfo.id}/delete`;
+    const api = `https://app.medical-clinic.tk/api/xrays/${userInfo.id}/delete`;
 
     const data = {api , userInfo}
-
     dispatch(deleteElement(data))
     setDone(true)
     setShowModalDelete(false)
   }
+
   return (
     showModalDelete ? (
       <div className="fixed inset-0 z-50 overflow-y-auto">
@@ -56,4 +56,4 @@ const DeletePharmce = ({ showModalDelete, setShowModalDelete, userInfo, setDone 
   )
 }
 
-export default DeletePharmce
+export default DeleteXray

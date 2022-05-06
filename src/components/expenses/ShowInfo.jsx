@@ -1,26 +1,23 @@
-import React, { useEffect } from 'react'
-import { useRef } from 'react'
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { updateInfo } from '../../redux/userSlice'
+import React from 'react'
+import { useRef, useState } from "react"
+import { useDispatch } from "react-redux"
+import { updateInfo } from "../../redux/userSlice"
 
-const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) => {
-
+const ShowInfo = ({  showModal, setShowModal, userInfo, setUserInfo, setDone }) => {
+  
   const [wronge, setWrong] = useState('')
   
-  let { id, name, instructions } = userInfo
+  let { id, name, value, notes } = userInfo
 
   const dispatch = useDispatch()
   const error = useRef()
   const [flag, setFlag] = useState(false)
 
   const handleChange = (e) => {
-    setUserInfo({ ...userInfo, [e.target.name]: e.target.value, [e.target.instructions]: e.target.value })
+    setUserInfo({ ...userInfo, [e.target.name]: e.target.value, [e.target.value]: e.target.value, [e.target.notes]: e.target.value  })
 
     setFlag(true)
   }
-
-  // // setInfo(currentArray => [...currentArray, handleChange(e)])
 
   const hideModal = () => {
     setShowModal(false)
@@ -29,8 +26,8 @@ const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) =
 
   const upDateInfo = () => {
 
-    const api = 'https://app.medical-clinic.tk/api/medicines/update'
-    const updatedObject = { id, name, instructions }
+    const api = 'https://app.medical-clinic.tk/api/expenses/update'
+    const updatedObject = { id, name, value, notes }
 
     if(flag) {
       const data = { api, updatedObject }
@@ -42,7 +39,6 @@ const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) =
       error.current.innerHTML = 'Be Sure From You Info'
       setWrong('wronge')
     }
-
   }
 
 
@@ -68,16 +64,20 @@ const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) =
 
                           {/* ------------------------------------ */}
                           <div className="md:col-span-6">
-                            <label htmlFor="name">Enter Name Pharmaceutical</label>
-                            <input className='h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center' onChange={e => handleChange(e)} defaultValue={name} name='name' type="text"  placeholder="Enter Name Pharmaceutical" />
+                            <label htmlFor="name">Enter Name The Expenses </label>
+                            <input className='h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center' onChange={e => handleChange(e)} defaultValue={name} name='name' type="text"  placeholder="Enter Name " />
                           </div>
 
                           <div className="md:col-span-6">
-                            <label htmlFor="email">Name The </label>
-                            <input className='h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center text-sm' onChange={e => handleChange(e)} defaultValue={instructions} name='instructions' type="text" placeholder="Enter The Instructions" />
+                            <label htmlFor="name">Enter The Value</label>
+                            <input className='h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center' onChange={e => handleChange(e)} defaultValue={value} name='value' type="text"  placeholder="Enter" />
                           </div>
 
-                          <br />
+                          <div className="md:col-span-6">
+                            <label htmlFor="name">Enter The Notes </label>
+                            <input className='h-10 border mt-1 rounded px-4 w-full bg-gray-50 flex items-center' onChange={e => handleChange(e)} defaultValue={notes} name='notes' type="text"  placeholder="Enter" />
+                          </div>
+
                           <span ref={error} className='text-sm p mt-4 text-red-700 md:col-span-4'></span>
 
                           <div className="gap-2 mt-3 sm:flex w-[100%] mx-auto md:col-span-full">
@@ -106,5 +106,6 @@ const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) =
     ) : ''
   )
 }
+
 
 export default ShowInfo

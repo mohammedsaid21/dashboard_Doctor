@@ -1,7 +1,8 @@
 import React from 'react'
-import Calender from '../components/calender/Calender'
+import Calender from '../components/calendar/Calender'
 
 const Reservations = () => {
+  
   return (
     <div className=''>
       <Calender />

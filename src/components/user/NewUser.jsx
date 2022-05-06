@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createElement, sucsessToast } from '../../redux/userSlice'
+import { createElement } from '../../redux/userSlice'
 
 const NewUser = ({ showAddUser, setShowAddUser, setDone }) => {
 
@@ -34,7 +34,6 @@ const NewUser = ({ showAddUser, setShowAddUser, setDone }) => {
       dispatch(createElement(data))
       setDone(true)
       setShowAddUser(false)
-      dispatch(sucsessToast())
     } else {
       error.current.innerHTML = 'Be Sure From You Info'
       setWrong('wronge')

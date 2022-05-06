@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useDispatch } from 'react-redux'
-import { deleteElement, deleteToast } from '../../redux/userSlice'
+import { deleteElement } from '../../redux/userSlice'
 
 const DeleteUser = ({ showModal, setShowModal, userInfo, setDone  }) => {
   
@@ -14,7 +14,6 @@ const DeleteUser = ({ showModal, setShowModal, userInfo, setDone  }) => {
     dispatch(deleteElement(data))
     setDone(true)
     setShowModal(false)
-    dispatch(deleteToast())
   }
 
 

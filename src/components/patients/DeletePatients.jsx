@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { deleteElement, deleteToast } from '../../redux/userSlice'
+import { deleteElement } from '../../redux/userSlice'
 
 const DeletePatients = ({ showModalDelete, setShowModalDelete, patientInfo, setDone }) => {
 
@@ -14,7 +14,6 @@ const DeletePatients = ({ showModalDelete, setShowModalDelete, patientInfo, setD
     dispatch(deleteElement(data))
     setDone(true)
     setShowModalDelete(false)
-    dispatch(deleteToast())
   }
 
   return (

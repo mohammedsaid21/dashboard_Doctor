@@ -23,49 +23,39 @@ const Home = ({ completed, setcompleted }) => {
   return (
     <>
       {
-        completed ?
-          <>
-            <div className='home'>
-              <div className="loading-container">
-                <div className="item"></div>
-                <div className="item"></div>
-                <div className="item"></div>
-                <div className="item"></div>
+        // completed ?
+        //   <>
+        //     <div className='home'>
+        //       <div className="loading-container">
+        //         <div className="item"></div>
+        //         <div className="item"></div>
+        //         <div className="item"></div>
+        //         <div className="item"></div>
+        //       </div>
+        //     </div>
+        //   </>
+        //   :
+        (
+          <div className='container mx-auto z-0'>
+            <Navbar />
+            <div className='homeContainer mt-32 flex'>
+              <Sidebar setcompleted={setcompleted} />
+
+              <div className='px-6 py-6 w-[90%] '>
+                <Routes>
+                  <Route path="/" element={<HomeContent />} />
+                  <Route path="/user" element={<Users />} />
+                  <Route path="/patients" element={<Patients />} />
+                  <Route path="/reservations" element={<Reservations />} />
+                  <Route path="/pharmaceutical" element={<Pharmaceutical />} />
+                  <Route path="/labTests" element={<LabTests />} />
+                  <Route path="/xRayPictures" element={<XRayPictures />} />
+                  <Route path="/expenses" element={<Expenses />} />
+                </Routes>
               </div>
             </div>
-          </>
-          :
-          (
-            <div className='container mx-auto'>
-              <Navbar />
-              <div className='homeContainer mt-32 flex'>
-                <Sidebar setcompleted={setcompleted} />
-
-                <div className='px-6 py-6 w-[90%]'>
-                  <Routes>
-                    <Route path="/" element={<HomeContent />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/user" element={<Users />} />
-                    <Route path="/patients" element={<Patients />} />
-                    <Route path="/reservations" element={<Reservations />} />
-                    <Route path="/pharmaceutical" element={<Pharmaceutical />} />
-                    <Route path="/labTests" element={<LabTests />} />
-                    <Route path="/xRayPictures" element={<XRayPictures />} />
-                    <Route path="/expenses" element={<Expenses />} />
-                  </Routes>
-                </div>
-
-                {/* <HomeContent /> */}
-
-                {/* <div className="main-loader">
-        <div className="loader"></div>
-        <div className="loader"></div>
-        <div className="loader"></div>
-        <div className="loader"></div>
-      </div> */}
-
-              </div>
-            </div>)}
+          </div>
+        )}
     </>
   )
 }

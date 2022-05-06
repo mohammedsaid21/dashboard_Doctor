@@ -25,7 +25,7 @@ const Pharmaceutical = () => {
 
   useEffect(() => {
     let isApiSubscribed = true;
-    const api = `https://app.medical-clinic.tk/api/medicines`;
+    const api = `https://app.medical-clinic.tk/api/medicines?search=${search}`;
     const token = JSON.parse(sessionStorage.getItem('token'));
     axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
       .then(res => {
@@ -45,17 +45,14 @@ const Pharmaceutical = () => {
     setShowModal(true)
   }
 
-
   const deletePharmce = (e) => {
     setShowModalDelete(true)
     setUserInfo(e)
-    // app.medical-clinic.tk
   }
 
   const newPharmce = (e) => {
     setShowAddPharmce(true)
   }
-
 
 
   const rows = dataUser.map((row, i) => (
@@ -68,11 +65,11 @@ const Pharmaceutical = () => {
         </div>
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">{row.instructions || "There Is No"}</p>
+        <p className="text-gray-900 whitespace-no-wrap">{row.instructions}</p>
       </td>
       <td className="px-5 py-3 border-b border-gray-200 bg-white text-xl flex items-center justify-around ">
-        <BsPencil className='cursor-pointer' onClick={() => editPharmce()} />
-        <RiDeleteBin5Line className='cursor-pointer' onClick={() => deletePharmce()} />
+        <BsPencil className='cursor-pointer' onClick={() => editPharmce(row)} />
+        <RiDeleteBin5Line className='cursor-pointer' onClick={() => deletePharmce(row)} />
       </td>
     </tr>
   ))
@@ -106,10 +103,10 @@ const Pharmaceutical = () => {
               </div>
             </div>
             <button className='btn' onClick={() => newPharmce()}>Add Pharmaceutical</button>
-            <AddPhrmaceutical showModal={showModal} setShowModal={setShowModal} />
+            <AddPhrmaceutical showAddPharmce={showAddPharmce} setShowAddPharmce={setShowAddPharmce} setDone={setDone} />
           </div>
-
         </div>
+
         <div>
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -133,7 +130,8 @@ const Pharmaceutical = () => {
                 <tbody>
                   {/* Name	Position	Office	Age	Start date	Salary	Action */}
 
-                  {rows.length === 0 ? rows : <h3 className='text-center w-[300%] py-10 flex justify-center'>There Is No Result</h3>}
+                  {rows}
+                   {/* <h3 className='text-center w-[300%] py-10 flex justify-center'>There Is No Result</h3> */}
 
                 </tbody>
               </table>
@@ -158,7 +156,7 @@ const Pharmaceutical = () => {
           </div>
         </div>
         <ShowInfo setDone={setDone} userInfo={userInfo} setUserInfo={setUserInfo} showModal={showModal} setShowModal={setShowModal} />
-        <DeletePharmce setDone={setDone} patientInfo={userInfo} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} />
+        <DeletePharmce setDone={setDone} userInfo={userInfo} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} />
       </div>
       <ToastContainer />
     </div>

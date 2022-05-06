@@ -2,7 +2,7 @@ import React from 'react'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { sucsessToast, updateInfo } from '../../redux/userSlice'
+import { updateInfo } from '../../redux/userSlice'
 
 const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) => {
 
@@ -38,7 +38,6 @@ const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) =
     if(flag) {
       const data = { api, updatedObject }
       dispatch(updateInfo(data))
-      dispatch(sucsessToast())
       setDone(true)
       setShowModal(false)
       setFlag(false)
