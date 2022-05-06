@@ -95,7 +95,7 @@ const Patients = () => {
       </td>
       <td className="px-5 py-3 border-b border-gray-200 text-md ">
         <AiOutlineEye className='cursor-pointer inline-block' onClick={() => showDetails(row)} />
-        <RiDeleteBin5Line className='cursor-pointer inline-block' onClick={() => deletePatients(row)} />
+        <RiDeleteBin5Line className='cursor-pointer inline-block text-red-700' onClick={() => deletePatients(row)} />
       </td>
     </tr>
   ))

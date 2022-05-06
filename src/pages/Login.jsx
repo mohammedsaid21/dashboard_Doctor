@@ -3,6 +3,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { login } from '../redux/userSlice'
+import Sucsess from '../components/login/Sucsess'
 
 const Login = () => {
 
@@ -10,6 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
+  const [showModal, setShowModal] = useState(false)
 
   const submitInfo = async (e) => {
     e.preventDefault()
@@ -22,11 +24,13 @@ const Login = () => {
         console.log("Something Wronge")
       }
       else {
+        
         dispatch(login(response.data.token))
       }
     })
 
   }
+
 
   return (
     <div className="bg-blue-400 h-screen w-screen">
@@ -55,6 +59,7 @@ const Login = () => {
           <div className={`hidden md:block md:w-1/2 rounded-r-lg bgImage-login `}></div>
         </div>
       </div>
+      <Sucsess showModal={showModal} setShowModal={setShowModal} />
     </div>
   )
 }
