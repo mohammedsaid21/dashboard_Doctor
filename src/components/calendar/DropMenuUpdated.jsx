@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import axios from "axios";
 
 import Box from '@mui/material/Box';
@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const DropMenuPatients = ({ setShowId, setStatus }) => {
+const DropMenuUpdated = ({ status2, setStatus2, customer_id2, setCustomer_id2 }) => {
 
   const [patients, setPatients] = useState([])
 
@@ -26,30 +26,55 @@ const DropMenuPatients = ({ setShowId, setStatus }) => {
     return () => isApiSubscribed = false;
   }, [])
 
-  const [id, setId] = useState('');
-  const [statusa, setStatusa] = useState('')
+  const [id, setId] = useState(customer_id2 || '');
+  const [statusa, setStatusa] = useState(status2 || '');
 
   const handleChange = (event) => {
     setId(event.target.value);
-  }
+  };
 
   const handleChangeStatus = (e) => {
     setStatusa(e.target.value)
   }
 
-  useEffect( () => {
-    setShowId(id)
-    setStatus(statusa)
-  }, [setShowId, id, statusa, setStatus])
+  useEffect(() => {
+    setCustomer_id2(id)
+    setStatus2(statusa)
+  }, [setCustomer_id2, id, statusa, setStatus2])
+
+
+  const menuItems = [
+    2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030
+  ]
+
+  const [selectedItem, setSelectedItem] = useState({
+    item: menuItems[0],
+    idx: 0
+  })
+  const [state, setState] = useState(false)
+  const selectMenuRef = useRef()
+
+  //  For Exist From The Form
+  const handleSelectMenu = useCallback((e) => {
+    if (!selectMenuRef.current.contains(e.target)) {
+      setState(false)
+      // setYears(selectedItem.item)
+    }
+  }, [setYears, selectedItem.item])
+
+  useEffect(() => {
+      document.addEventListener('click', handleSelectMenu)
+    return () => document.removeEventListener('click', handleSelectMenu)
+  }, [handleSelectMenu])
 
 
   return (
     <div className="relative w-full text-[16px] flex justify-between my-4">
-      <Box className='w-1/2 ' >
+      {/* <Box className='w-1/2 ' >
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Patient</InputLabel>
+          <InputLabel id="demo-simple-select-label">{customer_id2} id</InputLabel>
           <Select labelId="demo-simple-select-label"
-            id="demo-simple-select" value={id} label="Patient" onChange={handleChange}
+            id="demo-simple-select" defaultValue={customer_id2} label="Patient" onChange={handleChange}
           >
             {
               patients.map(patient => (
@@ -59,23 +84,21 @@ const DropMenuPatients = ({ setShowId, setStatus }) => {
           </Select>
         </FormControl>
       </Box>
-      {/* sx={{ width: 310 }}
-sx={{ width: 310 }} */}
+
       <Box className='w-1/2 ' >
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">status</InputLabel>
           <Select labelId="demo-simple-select-label"
-            id="demo-simple-select" value={statusa} label="status" onChange={handleChangeStatus}
+            id="demo-simple-select" defaultValue={status2} label="status" onChange={handleChangeStatus}
           >
-            {/* reservation Visted nonVisited */}
             <MenuItem value='reservation'>Reservation</MenuItem>
             <MenuItem value='visted'>Visted</MenuItem>
             <MenuItem value='nonVisited'>NonVisited</MenuItem>
           </Select>
         </FormControl>
-      </Box>
+      </Box> */}
     </div>
   )
 }
 
-export default DropMenuPatients
+export default DropMenuUpdated

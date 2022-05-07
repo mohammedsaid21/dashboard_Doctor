@@ -1,9 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { getOneElement } from '../../redux/userSlice'
+import DetailsCalender from './DetailsCalender'
 import DropMenu from './DropMenu'
 import { Datepicker } from './picker/DatePicker'
 import ShowModalAdd from './ShowModalAdd'
 const Calender = () => {
+
   const months = [
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
   ]
@@ -45,9 +49,11 @@ const Calender = () => {
   const [thisMonth, setThisMonth] = useState([])
   const [showModalAdd, setShowModalAdd] = useState(false)
   const [done, setDone] = useState(false)
+  const [modalDetails, setModalDetails] = useState(false)
+  const [details, setDetails] = useState({})
 
+  const [showId, setShowId] = useState()
 
-  // https://app.medical-clinic.tk/api/reservations/currentmonth
 
   useEffect(() => {
     let isApiSubscribed = true;
@@ -57,7 +63,7 @@ const Calender = () => {
       .then(res => {
         if (isApiSubscribed) {
           setThisMonth(res.data.data)
-          // setDone(false)
+          setDone(false)
         }
       })
       .catch((error) => {
@@ -70,6 +76,28 @@ const Calender = () => {
     setShowModalAdd(true)
   }
 
+  const dispatch = useDispatch()
+
+  const showDetails = (e) => {
+    // 
+    const api = `https://app.medical-clinic.tk/api/reservations/${e.id}/show`
+    const token = JSON.parse(sessionStorage.getItem('token'));
+
+    axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
+      .then(res => {
+        console.log(res.data.reservation)
+        setDetails(res.data.reservation)
+        setDone(false)
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+
+    setModalDetails(true)
+
+  }
+
+  const styled = ' text-[11px] inline-block w-1/ px-2 py-1 rounded-xl cursor-pointer transition-all duration-300'
   return (
     <div>
       <div className='mb-4 w-full flex justify-between items-center px-2'>
@@ -92,18 +120,18 @@ const Calender = () => {
               <h3 className='w-[80%]'>{object.name}</h3>
             </div>
             {/* #e2e8f0 */}
-            {object.reservations.map(task => (
-              <ul className='w-full px-2'>
-                <li className='text-sm '>{task.note}</li>
-                <li className='text-[11px] inline-block w-1/ bg-blue-200  px-2 py-1 rounded-xl'>{task.start_time}</li>
-                <li className='text-[11px] inline-block w-1/ bg-blue-200  px-2 py-1 rounded-xl'>{task.end_time}</li>
+            {object.reservations.map((task, id) => (
+              <ul key={id} className='w-full px-2'>
+                <li className={`bg-blue-200 hover:bg-blue-300  ${styled}`} onClick={() => showDetails(task)}>{task.start_time}</li>
+                <li className={`bg-red-300 hover:bg-red-400 ${styled}`} onClick={() => showDetails(task)}>{task.end_time}</li>
+                {task.customer_id}
               </ul>
             ))}
           </div>
-        ))
-        }
+        ))}
       </main>
-      <ShowModalAdd showModalAdd={showModalAdd} setShowModalAdd={setShowModalAdd} setDone={setDone} />
+      <ShowModalAdd showId={showId} setShowId={setShowId} showModalAdd={showModalAdd} setShowModalAdd={setShowModalAdd} setDone={setDone} />
+      <DetailsCalender setDetails={setDetails} details={details} setModalDetails={setModalDetails} modalDetails={modalDetails} setDone={setDone} />
     </div>
   )
 }

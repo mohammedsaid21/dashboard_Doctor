@@ -14,8 +14,6 @@ const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) =
   const error = useRef()
   const [flag, setFlag] = useState(false)
 
-  // setWrong('')
-
   const handleChange = (e) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value, [e.target.phone1]: e.target.value, [e.target.phone2]: e.target.value, [e.target.email]: e.target.value, [e.target.gender]: e.target.value, [e.target.birthdate]: e.target.value, [e.target.image]: e.target.value, [e.target.blood_type]: e.target.value, [e.target.id_number]: e.target.value, [e.target.height]: e.target.value, [e.target.matiral_status]: e.target.value, [e.target.job]: e.target.value })
 

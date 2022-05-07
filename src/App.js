@@ -26,7 +26,6 @@ function App() {
       {
         userInfo4 ? <Home completed={completed} setcompleted={setcompleted} /> : <Login />
       }
-
       {/* <Routes> */}
       {/* <Route path='/' element={<Home />} /> */}
       {/* <Route path="/" element={<Home />} /> */}

@@ -97,6 +97,31 @@ export const updateInfo = createAsyncThunk(
   }
 );
 
+
+// export const getOneElement = createAsyncThunk(
+//   "user/getOneElement",
+//   async (api, thunkAPI) => {
+//     // const { rejectedWithValue } = thunkAPI;
+//     // JSON.stringify -> convert the normal code into JSON code
+//     try {
+//       const token = JSON.parse(sessionStorage.getItem("token"));
+//       const res = await fetch(api, {
+//         method: "GET",
+//         headers: {
+//           "Content-type": "application/json; charset=UTF-8",
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+//       const data = await res.json();
+//       console.log(data)
+//       return data;
+//     } catch (error) {
+//       return error.message;
+//       // return rejectedWithValue(error.message);
+//     }
+//   }
+// );
+
 export const logout = createAsyncThunk(
   "user/logout",
   async (dataObject, thunkAPI) => {
@@ -114,7 +139,6 @@ export const logout = createAsyncThunk(
           },
         }
       );
-
       const data = await res.json();
       return data;
     } catch (error) {
@@ -128,7 +152,8 @@ const initialState = {
   userInfo: sessionStorage.getItem("token"),
   info: {},
   alertShow: false,
-  data: []
+  data: [],
+  reservation: {}
 };
 
 export const userSlice = createSlice({
@@ -257,6 +282,9 @@ export const userSlice = createSlice({
         progress: undefined,
       });
     },
+    // ---------> updateInfo
+    
+
   }
 });
 // Bearer

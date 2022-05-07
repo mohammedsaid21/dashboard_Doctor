@@ -1,52 +1,22 @@
 import { useRef, useState } from "react"
 import { useDispatch } from "react-redux"
 import { createElement } from "../../redux/userSlice"
-import DatePicker from 'react-date-picker';
+
 import DropMenuPatients from "./DropMenuPatients";
 
-const ShowModalAdd = ({ setDone, showModalAdd, setShowModalAdd }) => {
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import TextField from '@mui/material/TextField';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
-  // Date X
-  // Day 
-  // Start Time
-  // End Time
-  // Customer_id
-  // user_id
-  // status
-  // price
+const ShowModalAdd = ({ setDone, showModalAdd, setShowModalAdd ,showId, setShowId }) => {
 
-  const [value, onChange] = useState(new Date());
-  const [reservation, setReservation] = useState({ name: "", price: "", notes: "" })
-
-  const [showId, setShowId] = useState()
-
-
-  const formatDate = (date) => {
-    let d = new Date(date);
-    let month = (d.getMonth() + 1).toString();
-    let day = d.getDate().toString();
-    let year = d.getFullYear();
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-    if (day.length < 2) {
-      day = '0' + day;
-    }
-    return [year, month, day].join('-');
-  }
-
-  const handleChange = (e) => {
-    setReservation({ ...reservation, [e.target.name]: e.target.value, [e.target.price]: e.target.value, [e.target.notes]: e.target.value })
-    // console.log(formatDate(value))
-  }
-
-
-  // console.log(formatDate(value));
-
-  // 'Febuary 1, 2021'
-  const changeDate = (e) => {
-    onChange(e)
-  }
+  const [date, setDate] = useState('')
+  const [startTime, setStartTime] = useState('10:00');
+  const [endTime, setEndTime] = useState('10:30');
+  const [price, setPrice] = useState(0)
+  const [status, setStatus] = useState('')
 
   const onlySpaces = (str) => str.trim().length > 2
   const error = useRef()
@@ -54,21 +24,41 @@ const ShowModalAdd = ({ setDone, showModalAdd, setShowModalAdd }) => {
 
   const dispatch = useDispatch()
 
+  // start_time(pin):"2022-05-07T00:14:00.693Z"
+// 
+
+function formatAMPM(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+}
+
+var today = new Date();
+
+var date22 = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+
   const closeModal = () => {
     setShowModalAdd(false)
-    setReservation({ name: "", value: "", notes: "" })
+    setStartTime('')
+    setEndTime('')
     setWrong('')
   }
 
   const submitInfo = (e) => {
     e.preventDefault()
 
-    const api = 'https://app.medical-clinic.tk/api/expenses/create'
-    const info = reservation
+    const info = { price, date, start_time: formatAMPM(startTime), end_time: formatAMPM(endTime), status, customer_id: showId }
+    const api = 'https://app.medical-clinic.tk/api/reservations/create'
     // هدول هضيفهن مع الفورم في الاوبجيت الي هبعته على السيرفر { date ,  showId }
 
     const data = { api, info }
-    if (onlySpaces(reservation.name) && onlySpaces(reservation.notes)) {
+    if ( onlySpaces(price) &&  date && startTime && endTime  && showId) {
       dispatch(createElement(data))
       setDone(true)
       setShowModalAdd(false)
@@ -84,53 +74,60 @@ const ShowModalAdd = ({ setDone, showModalAdd, setShowModalAdd }) => {
       <div className="fixed inset-0 z-50 overflow-y-auto">
         <div className="fixed inset-0 w-full h-full bg-black opacity-40" onClick={() => closeModal()}></div>
         <div className="flex items-center min-h-screen px-4 py-8">
-          <div className={`relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg  ${wronge}`}>
-            <form onSubmit={submitInfo} className='mt-3'>
-              <input
-                type="text"
-                value={reservation.name}
-                name="name"
-                onChange={e => handleChange(e)}
-                placeholder="enter status "
-                className="w-full py-3 pl-7 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600 mb-2"
-              />
-              <input
-                type="text"
-                value={reservation.value}
-                name="value"
-                onChange={e => handleChange(e)}
-                placeholder="enter The Price "
-                className="w-full py-3 pl-7 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600 mb-2"
-              />
-              <input
-                type="text"
-                value={reservation.notes}
-                name="notes"
-                onChange={e => handleChange(e)}
-                placeholder="enter The Notes "
-                className="w-full py-3 pl-7 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600 mb-2"
-              />
+          <div className={`relative w-[70%] max-w -lg p-4 mx-auto bg-white rounded-md shadow-lg  ${wronge}`}>
+            <form onSubmit={submitInfo} className='mt-3 flex flex-wrap '>
 
-              <DatePicker name='myPicker' minDate={new Date()} className=' w-full py-3 pl-7 pr-4 text-gray-500 border rounded-md outline-none bg-gray-50 focus:bg-white focus:border-indigo-600 mb-2'
-                onChange={(e) => changeDate(e)} value={value} />
+              <TextField className="w-1/2 my-4 " sx={{ minWidth: 200 }} id="outlined-basic" label="Outlined" variant="outlined" value={price} onChange={e => setPrice(e.target.value)} />
 
-              <DropMenuPatients setShowId={setShowId} />
+              <LocalizationProvider sx={{ maxWidth: 180 }} dateAdapter={AdapterDateFns}>
+                <DatePicker sx={{ maxWidth: 180 }} className="w-1/2 bg-gray-900"
+                  label="Date The Res"
+                  value={date}
+                  minDate={date22}
+                  onChange={(newValue) => {
+                    setDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
 
+              <LocalizationProvider className="w-1/2" dateAdapter={AdapterDateFns}>
+                <TimePicker sx={{ maxWidth: 160 }}
+                  label="Start Time"
+                  value={startTime}
+                  onChange={(newValue) => {
+                    setStartTime(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+
+              <LocalizationProvider className="w-1/2" dateAdapter={AdapterDateFns}>
+                <TimePicker sx={{ minWidth: 220 }}
+                  label="End Time"
+                  value={endTime}
+                  onChange={(newValue) => {
+                    setEndTime(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+
+              <DropMenuPatients setShowId={setShowId} setStatus={setStatus} />
 
               <span ref={error} className='text-sm mt-4 mx-2 text-red-700'></span>
-
               <button className="w-full mt-2 p-2.5 flex-1 text-white bg-indigo-600 rounded-md outline-none ring-offset-2 ring-indigo-600 focus:ring-2"
                 type='submit'
               >
                 Add
               </button>
-            </form>
-            <div className="items-center gap-2 mt-3 sm:flex">
               <button className="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
                 onClick={() => closeModal()}
               >
                 Undo
               </button>
+            </form>
+            <div className="items-center gap-2 mt-3 sm:flex ">
             </div>
           </div>
         </div>

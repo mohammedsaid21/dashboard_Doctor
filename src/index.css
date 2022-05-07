@@ -58,6 +58,7 @@ body {
 => والقبضة الجاية بجيب الكرسي ان شاء الله
 
 */
+
 .z-index {
   z-index: 100000;
   @apply fixed inset-0 bg-blue-300 overflow-y-auto;
@@ -333,4 +334,8 @@ body {
     /* margin-left: 1rem; */
     transform: translateX(-5px);
   }
+}
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  width: 100%;
+  margin-right: 30px;
 }
