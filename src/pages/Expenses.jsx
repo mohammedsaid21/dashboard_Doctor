@@ -60,17 +60,17 @@ const Expenses = () => {
 
 
   const rows = dataUser.map((row, i) => (
-    <tr key={i}>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+    <tr className='hover:bg-sky-100 transition-all duration-200 ' key={i}>
+      <td className="px-5 py-3 border-b border-gray-200 text-sm">
         <p className="text-gray-900 whitespace-no-wrap">{row.name}</p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+      <td className="px-5 py-3 border-b border-gray-200 text-sm">
         <p className="text-gray-900 whitespace-no-wrap">{row.value}</p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+      <td className="px-5 py-3 border-b border-gray-200 text-sm">
         <p className="text-gray-900 whitespace-no-wrap">{row.notes}</p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-xl flex items-center justify-around ">
+      <td className="px-5 py-3 border-b border-gray-200 text-xl flex items-center justify-around ">
         <BsPencil className='cursor-pointer' onClick={() => editExpense(row)} />
         <RiDeleteBin5Line className='cursor-pointer' onClick={() => deleteExpense(row)} />
       </td>

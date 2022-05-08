@@ -57,36 +57,36 @@ useEffect(() => {
 
 // .filter(name => name.name.includes(search))
   const rows = dataUser.map((row, i) => (
-    <tr className='' key={i}>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+    <tr className='hover:bg-sky-100 transition-all duration-200' key={i}>
+      <td className="lg:px-5 lg:py-3 px-2 py-2 border-b border-gray-200 lg:text-sm text-[10px] text-left">
         <div className="flex items-center">
           <img src={row.image} className='rounded-2xl mx-1' alt='' />
-          <p className="text-gray-900 whitespace-no-wrap">
+          <p className="text-gray-900  whitespace-pre-wrap">
             {row.name}
           </p>
         </div>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+      <td className="lg:px-5 lg:py-3 px-2 py-2 border-b border-gray-200  lg:text-sm text-[10px]">
         <p className="text-gray-900 whitespace-no-wrap">
           { row.phone ? row.phone : "No Exist" }
         </p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">
+      <td className="lg:px-5 lg:py-3 px-1 py-1 border-b border-gray-200  lg:text-sm text-[10px] text-left">
+        <p className="text-gray-900 whitespace-pre-wrap">
           {row.email}
         </p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+      <td className="lg:px-5 lg:py-3 px-2 py-2 border-b border-gray-200  lg:text-sm text-[10px]">
         <p className="text-gray-900 whitespace-no-wrap">
           {row.gender}
         </p> 
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+      <td className="lg:px-5 lg:py-3 px-2 py-2 border-b border-gray-200  lg:text-sm text-[10px]">
         <p className="text-gray-900 whitespace-no-wrap">
           Admin
         </p>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-md fle x items-center justify-between ">
+      <td className="lg:px-5 lg:py-3 px-2 py-2 border-b border-gray-200  text-md fle x items-center justify-between ">
         <AiOutlineEye className='cursor-pointer inline-block mr-4' onClick={() => showDetails(row)} />
         <RiDeleteBin5Line className='cursor-pointer inline-block w-' onClick={() => deleteUser(row)} />
       </td>
@@ -95,7 +95,7 @@ useEffect(() => {
 
   return (
     <div>
-      <div className="bg-white p-8 rounded-md w-full">
+      <div className="bg-white lg:p-8 p-6 rounded-md w-full">
         <div className=" flex items-center justify-between pb-6">
           <div>
             {/* <h2 className="text-gray-600 font-semibold">Products Oder</h2> */}
@@ -126,32 +126,32 @@ useEffect(() => {
         <div>
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-              <table className="min- w-full leading-normal text-center">
+              <table className=" w-full leading-normal text-center">
                 <thead>
                   <tr>
                     <th
-                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      className="lg:px-5 lg:py-3 px-2 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Name
                     </th>
                     <th
-                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      className="lg:px-5 lg:py-3 px-2 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       phone
                     </th>
                     <th
-                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      className="lg:px-5 lg:py-3 px-2 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider ">
                       email
                     </th>
 
                     <th
-                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      className="lg:px-5 lg:py-3 px-2 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       gender
                     </th>
                     <th
-                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      className="lg:px-5 lg:py-3 px-2 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       User type
                     </th>
                     <th
-                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase trackin g-wider">
+                      className="lg:px-5 lg:py-3 px-2 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase trackin g-wider">
                       Actions
                     </th>
                   </tr>
@@ -164,7 +164,7 @@ useEffect(() => {
                 </tbody>
               </table>
               <div
-                className="px-5 py-3 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+                className="lg:px-5 lg:py-3 px-2 py-2 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                 <span className="text-xs xs:text-sm text-gray-900">
                   Showing 1 to 4 of 50 Entries
                 </span>

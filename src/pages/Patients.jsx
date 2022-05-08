@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { AiOutlineEye } from 'react-icons/ai'
-import { BsPencil } from 'react-icons/bs'
 import { RiDeleteBin5Line } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
@@ -61,7 +60,7 @@ const Patients = () => {
 
 // .filter(name => name.name.includes(search))
   const rows = dataUser.map((row, i) => (
-    <tr className='hover:bg-sky-100 transition-all duration-200' key={i}>
+    <tr className='hover:bg-sky-100 transition-all duration-200 text-left' key={i}>
       <td className="pl-3 py-3 border-b border-gray-200 text-sm">
         <div className="flex items-center">
           <p className="text-gray-900 whitespace-no-wrap">
@@ -73,7 +72,7 @@ const Patients = () => {
         <p className="text-gray-900 whitespace-no-wrap">{row.phone1}</p>
       </td>
       <td className="pl-3 py-3 border-b border-gray-200 text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">
+        <p className="text-gray-900 whitespace-nowrap">
           {row.email}
         </p>
       </td>

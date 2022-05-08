@@ -32,7 +32,6 @@ const ShowModalAdd = ({
   const dispatch = useDispatch();
 
   // start_time(pin):"2022-05-07T00:14:00.693Z"
-  //
 
   function formatAMPM(datez) {
     let hours = datez.getHours();
@@ -102,9 +101,11 @@ const ShowModalAdd = ({
           className={`relative w-[70%] max-w -lg p-4 mx-auto bg-white rounded-md shadow-lg  ${wronge}`}
         >
           <form onSubmit={submitInfo} className="mt-3 flex flex-wrap ">
+            <div className="flex w-full items-center justify-between">
+
             <TextField
               className="w-1/2 my-4 "
-              sx={{ minWidth: 200 }}
+              sx={{ minWidth: 500 }}
               id="outlined-basic"
               label="Outlined"
               variant="outlined"
@@ -126,8 +127,9 @@ const ShowModalAdd = ({
                   setDate(newValue);
                 }}
                 renderInput={(params) => <TextField {...params} />}
-              />
+                />
             </LocalizationProvider>
+                </div>
             {/*  */}
             {/* minDate={date22} */}
             <div className="w-1/2 my-2">

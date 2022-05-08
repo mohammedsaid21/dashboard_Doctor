@@ -8,8 +8,11 @@ import { VscSignOut } from "react-icons/vsc";
 import { IoPersonOutline } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice";
+import { Button, Menu, MenuItem } from "@mui/material";
+import { useState } from "react";
 
-const Navbar = () => {
+const Navbar = ({setStaticValue}) => {
+
   const handelToggle = () => {
     const navMobile = document.querySelector(".navMobile");
     const liMobile = document.querySelectorAll(".navMobile li");
@@ -21,19 +24,12 @@ const Navbar = () => {
     }
   };
 
+  const sideba = document.querySelector(".sidebar");
+
   const hideMenu = () => {
-    const sideba = document.querySelector(".sidebar");
-
-    if (sideba.classList[0] === "w-sidebar") {
-      console.log('1', sideba);
-      sideba.classList.remove("w-sidebar");
-      sideba.classList.add("w-sidebar-sm");
-
-    } else if (sideba.classList[9] === "w-sidebar-sm") {
-      console.log('2', sideba);
-      sideba.classList.remove("w-sidebar-sm");
-      sideba.classList.add("w-sidebar");
-    }
+    sideba.classList.toggle('hidden')
+    if(sideba.classList.contains('hidden')) setStaticValue('w-[150%] mx-auto')
+    else setStaticValue('w-[82%]')
   };
 
   const dispatch = useDispatch();
@@ -41,6 +37,31 @@ const Navbar = () => {
   const logout_Acount = () => {
     dispatch(logout());
   };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const [anchorEl2, setAnchorEl2] = useState(null);
+  const open2 = Boolean(anchorEl2);
+  const handleClick2 = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
+
+  const arabic = () => {
+    document.dir = 'rtl'
+  }
+  const english = () => {
+    document.dir = 'ltr'
+  }
 
   return (
     <>
@@ -90,14 +111,39 @@ const Navbar = () => {
               </form>
             </div>
             <div className="flex justify-end items-center text-white w-1/5 ">
-              <div className="text-2xl w-12 lang cursor-pointer relative">
-                <MdLanguage />
-                <ul className="before-lan px-4">
-                  <li className="transition-all hover:text-blue-500">عربي</li>
-                  <li className="transition-all hover:text-blue-500">
-                    English
-                  </li>
-                </ul>
+              {/* <div className="text-2xl w-12 lang cursor-pointer relative">
+              
+              <ul className="before-lan px-4">
+                <li className="transition-all hover:text-blue-500" onClick={() => document.dir = 'rtl'}>عربي</li>
+                <li className="transition-all hover:text-blue-500" onClick={() => document.dir = 'lrt'}>
+                  English
+                </li>
+              </ul>
+            </div> */}
+
+              <div>
+                <Button
+                  id="basic-button"
+                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={handleClick}
+                >
+                  <MdLanguage className="text-white text-2xl" />
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  <MenuItem onClick={english}>English</MenuItem>
+                  <MenuItem onClick={arabic}>عربي</MenuItem>
+                </Menu>
+                {/*  */}
               </div>
 
               <div className="text-2xl w-8 lang cursor-pointer relative">
@@ -116,30 +162,59 @@ const Navbar = () => {
 
               <IoIosNotificationsOutline className="text-2xl w-10 ml-3 cursor-pointer" />
 
-              <div className="w-8 lang relative">
-                <img
-                  className="rounded-xl cursor-pointer ml-3"
-                  src="https://via.placeholder.com/30"
-                  alt=""
-                />
-                <ul className="before-lan before-lan3 px-4 w-40">
-                  <li className="transition-all hover:text-blue-500 flex items-center justify-start text-md  cursor-pointer mb-4">
-                    <IoPersonOutline className="text-xl mr-4" />
-                    Profile
-                  </li>
-                  <li className="transition-all hover:text-blue-500 flex items-center justify-start text-md  cursor-pointer mb-4">
-                    <BsInbox className="text-xl mr-4" />
-                    Inbox
-                  </li>
-                  <li
-                    onClick={() => logout_Acount()}
-                    className="transition-all hover:text-blue-500 flex items-center justify-start text-md  cursor-pointer mb-4"
-                  >
-                    <VscSignOut className="text-xl mr-4" />
-                    Sign Out
-                  </li>
-                </ul>
+              <div>
+                <Button
+                  id="basic-button"
+                  aria-controls={open2 ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open2 ? "true" : undefined}
+                  onClick={handleClick2}
+                >
+                  <img
+                    className="rounded-xl cursor-pointer ml-3"
+                    src="https://via.placeholder.com/30"
+                    alt=""
+                  />
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl2}
+                  open={open2}
+                  onClose={handleClose2}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem onClick={logout_Acount}>Logout</MenuItem>
+                </Menu>
               </div>
+
+              {/* <div className="w-8 lang relative">
+              <img
+                className="rounded-xl cursor-pointer ml-3"
+                src="https://via.placeholder.com/30"
+                alt=""
+              />
+              <ul className="before-lan before-lan3 px-4 w-40">
+                <li className="transition-all hover:text-blue-500 flex items-center justify-start text-md  cursor-pointer mb-4">
+                  <IoPersonOutline className="text-xl mr-4" />
+                  Profile
+                </li>
+                <li className="transition-all hover:text-blue-500 flex items-center justify-start text-md  cursor-pointer mb-4">
+                  <BsInbox className="text-xl mr-4" />
+                  Inbox
+                </li>
+                <li
+                  onClick={() => logout_Acount()}
+                  className="transition-all hover:text-blue-500 flex items-center justify-start text-md  cursor-pointer mb-4"
+                >
+                  <VscSignOut className="text-xl mr-4" />
+                  Sign Out
+                </li>
+              </ul>
+            </div> */}
             </div>
           </div>
         </div>

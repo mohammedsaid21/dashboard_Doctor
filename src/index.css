@@ -221,16 +221,10 @@ body {
   overflow-x: hidden;
   position: sticky;
   top: 80px;
-  height: 75vh;
+  height: 600px;
   flex: 4;
 }
 
-.w-sidebar {
-  @apply lg:w-[230px] w-[330px];
-}
-.w-sidebar-sm {
-  @apply lg:w-[0px] w-[0px];
-}
 
 .sidebar::-webkit-scrollbar {
   width: 0.2rem;

@@ -60,15 +60,15 @@ const XRayPictures = () => {
   }
 
   const rows = dataUser.map((row, i) => (
-    <tr key={i}>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+    <tr className='hover:bg-sky-100 transition-all duration-200 ' key={i}>
+      <td className="px-5 py-3 border-b border-gray-200 text-sm">
         <div className="flex items-center">
           <p className="text-gray-900 whitespace-no-wrap">
             {row.name}
           </p>
         </div>
       </td>
-      <td className="px-5 py-3 border-b border-gray-200 bg-white text-xl flex items-center justify-around ">
+      <td className="px-5 py-3 border-b border-gray-200 text-xl flex items-center justify-around ">
         <BsPencil className='cursor-pointer' onClick={() => editPatients(row)} />
         <RiDeleteBin5Line className='cursor-pointer' onClick={() => deletePatients(row)} />
       </td>

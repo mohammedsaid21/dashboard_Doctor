@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import React, { useRef } from 'react'
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import HomeContent from '../components/HomeContent'
@@ -19,6 +19,8 @@ const Home = ({ completed, setcompleted }) => {
     setcompleted(false)
   }, [setcompleted])
 
+  const [staticValue, setStaticValue] = useState('w-[82%]')
+
   return (
     <>
       {
@@ -36,11 +38,11 @@ const Home = ({ completed, setcompleted }) => {
         //   :
         (
           <div className='lg:container px-2 lg:px-0 mx-auto z-0'>
-            <Navbar />
+            <Navbar setStaticValue={setStaticValue} />
             <div className='homeContainer mt-32 flex'>
               <Sidebar setcompleted={setcompleted} />
 
-              <div className='lg:px-6 px-3 py-6 lg:w-[90%] w-[82%] '>
+              <div className={`lg:px-6 px-3 py-6 lg:w-[85%] ${staticValue} `}>
                 <Routes>
                   <Route path="/" element={<HomeContent />} />
                   <Route path="/user" element={<Users />} />
