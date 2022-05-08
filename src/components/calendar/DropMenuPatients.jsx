@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const DropMenuPatients = ({ setShowId, setStatus }) => {
+const DropMenuPatients = ({showId, setShowId, status, setStatus }) => {
 
   const [patients, setPatients] = useState([])
 
@@ -28,23 +28,26 @@ const DropMenuPatients = ({ setShowId, setStatus }) => {
 
   const [id, setId] = useState('');
   const [statusa, setStatusa] = useState('')
+  const [namePat, setNamePat] = useState('')
 
   const handleChange = (event) => {
-    setId(event.target.value);
+    setShowId(event.target.value);
+    console.log(event.target.value)
   }
-
+  
   const handleChangeStatus = (e) => {
-    setStatusa(e.target.value)
+    setStatus(e.target.value)
+    console.log(e.target.value)
   }
 
-  useEffect( () => {
-    setShowId(id)
-    setStatus(statusa)
-  }, [setShowId, id, statusa, setStatus])
+  // useEffect( () => {
+  //   setShowId(id)
+  //   setStatus(statusa)
+  // }, [setShowId, id, statusa, setStatus])
 
 
   return (
-    <div className="relative w-full text-[16px] flex justify-between my-4">
+    <div className="relative w-full text-[16px] flex justify-between my-2">
       <Box className='w-1/2 ' >
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Patient</InputLabel>
@@ -59,15 +62,13 @@ const DropMenuPatients = ({ setShowId, setStatus }) => {
           </Select>
         </FormControl>
       </Box>
-      {/* sx={{ width: 310 }}
-sx={{ width: 310 }} */}
+
       <Box className='w-1/2 ' >
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">status</InputLabel>
           <Select labelId="demo-simple-select-label"
             id="demo-simple-select" value={statusa} label="status" onChange={handleChangeStatus}
           >
-            {/* reservation Visted nonVisited */}
             <MenuItem value='reservation'>Reservation</MenuItem>
             <MenuItem value='visted'>Visted</MenuItem>
             <MenuItem value='nonVisited'>NonVisited</MenuItem>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import DropMenuPatients from "./DropMenuPatients";
@@ -8,6 +8,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import DropMenuUpdated from './DropMenuUpdated';
+import axios from 'axios';
+import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 const DetailsCalender = ({ setModalDetails, modalDetails, setDone, details, setDetails }) => {
 
@@ -27,12 +29,15 @@ const DetailsCalender = ({ setModalDetails, modalDetails, setDone, details, setD
   const [status2, setStatus2] = useState('')
   const [customer_id2, setCustomer_id2] = useState('')
 
+  // useEffect(()=> {
+  //   setStartTime2(start_time)
+  // }, [start_time])
+
 
   const upDateInfo = () => {
 
     console.log(status)
     console.log(customer_id)
-
 
     // const api = 'https://app.medical-clinic.tk/api/reservations/update'
     // const updatedObject = {}
@@ -69,6 +74,39 @@ const DetailsCalender = ({ setModalDetails, modalDetails, setDone, details, setD
 
   const formatYmd = date => date.toISOString().slice(0, 10);
 
+  const [patients, setPatients] = useState([])
+
+  useEffect(() => {
+    let isApiSubscribed = true;
+    const api = `https://app.medical-clinic.tk/api/customers`;
+    const token = JSON.parse(sessionStorage.getItem('token'));
+    axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
+      .then(res => {
+        if (isApiSubscribed)
+          setPatients(res.data.data)
+          setDone(true)
+      })
+      .catch((error) => {
+        console.log(error)
+      });
+    return () => isApiSubscribed = false;
+  }, [setDone])
+
+  const [showName, setShowName] = useState('')
+
+  const handleChange = (event) => {
+    setShowName(event.target.value);
+  }
+
+  useEffect(() => {
+    console.log(showName)
+    setDone(true)
+  }, [showName, setDone])
+
+  const handleChangeStatus = (e) => {
+    // setStatus(e.target.value)
+  }
+  // 
 
   return (
     modalDetails ? (
@@ -98,13 +136,30 @@ const DetailsCalender = ({ setModalDetails, modalDetails, setDone, details, setD
                           />
                         </LocalizationProvider>
 
-                        <TextField className="w-1/2 my-4 " sx={{ minWidth: 200 }} id="startTime" label="start Time" variant="outlined" defaultValue={start_time}
-                          onChange={e => setStartTime2(e.target.value)} />
+                        {/* <TextField className="w-1/2 my-4 " sx={{ minWidth: 200 }} id="startTime" label="start Time" variant="outlined" defaultValue={startTime2}
+                          onChange={e => setStartTime2(e.target.value)} /> */}
 
-                        <TextField className="w-1/2 my-4 " sx={{ minWidth: 200 }} id="End Time" label="End Time " variant="outlined" defaultValue={end_time}
-                          onChange={e => setEndTime2(e.target.value)} />
+                          <input className='w-1/2 px-2 py-4 border-2 border-gray-400 my-2 focus:outline-blue-400' type='text' defaultValue={start_time} onChange={e => setStartTime2(e.target.value)} />
+                          <input className='w-1/2 px-2 py-4 border-2 border-gray-400 my-2 focus:outline-blue-400' type='text' defaultValue={end_time} onChange={e => setEndTime2(e.target.value)} />
+                        {/* 
+                        <TextField className="w-1/2 my-4 " sx={{ minWidth: 200 }} id="End Time" label="End Time " variant="outlined" defaultValue={end_time} onChange={e => setEndTime2(e.target.value)} /> */}
 
-                        <DropMenuUpdated status2={status2} setStatus2={setStatus2} customer_id2={customer_id2} setCustomer_id2={setCustomer_id2} />
+                        {/* <DropMenuUpdated  status2={status2} setStatus2={setStatus2} customer_id2={customer_id2} setCustomer_id2={setCustomer_id2} /> */}
+
+              <Box className='w-1/2 ' >
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">{showName}</InputLabel>
+                  <Select labelId="demo-simple-select-label"
+                    id="demo-simple-select" value={showName} label="Patient" onChange={handleChange}
+                  >
+                    {
+                      patients.map(patient => (
+                        <MenuItem key={patient.id} value={patient.name}>{patient.name}</MenuItem>
+                      ))
+                    }
+                  </Select>
+                </FormControl>
+              </Box>
 
                         {/* <LocalizationProvider className="w-1/2" dateAdapter={AdapterDateFns}>
                           <TimePicker sx={{ maxWidth: 160 }}
