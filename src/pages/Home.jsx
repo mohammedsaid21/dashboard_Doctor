@@ -15,7 +15,6 @@ import XRayPictures from './XRayPictures'
 
 const Home = ({ completed, setcompleted }) => {
 
-
   useEffect(() => {
     setcompleted(false)
   }, [setcompleted])
@@ -36,12 +35,12 @@ const Home = ({ completed, setcompleted }) => {
         //   </>
         //   :
         (
-          <div className='container mx-auto z-0'>
+          <div className='lg:container px-2 lg:px-0 mx-auto z-0'>
             <Navbar />
             <div className='homeContainer mt-32 flex'>
               <Sidebar setcompleted={setcompleted} />
 
-              <div className='px-6 py-6 w-[90%] '>
+              <div className='lg:px-6 px-3 py-6 lg:w-[90%] w-[82%] '>
                 <Routes>
                   <Route path="/" element={<HomeContent />} />
                   <Route path="/user" element={<Users />} />

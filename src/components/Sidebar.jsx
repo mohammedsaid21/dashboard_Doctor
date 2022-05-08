@@ -9,63 +9,66 @@ import { NavLink } from 'react-router-dom'
 
 const Sidebar = ({setcompleted}) => {
 
-  const getURL =  (e) => {
+  const getURL = (e) => {
     setcompleted(true)
+    console.log(e)
   }
 
   useEffect(() => {
     setcompleted(false)
   }, [setcompleted])
 
+  const style = 'flex items-center justify-between w-[85%] lg:px-3 px-1 py-3 text-[10px] lg:text-[12px] hover:bg-slate-300 transition-all duration-500 cursor-pointer rounded-xl mb-1'
+
   return (
-    <div className='sidebar pl-8 pt-6 border-r-2 border-slate-300 w-[230px]'>
-
-      <NavLink  onClick={() => getURL(window.location.pathname)} to='/' className='flex items-center justify-between w-[85%] px-3 py-3 text-[12px] hover:bg-slate-300 transition-all duration-500 cursor-pointer rounded-xl mb-1'>
-        <BiHomeAlt className='text-xl text-[#506690]' />
-        <h4 className='text-slate-800 mr-1 w-3/5'>Control Board</h4>
-        <FiChevronRight />
+    <div className='w-s idebar sidebar pl-1 lg:pl-8 pt-6 border-r-2 border-slate-300  bg-re d-300 lg:bg-white '>
+{/* normal -> this is will Done (exiquted) */}
+      <NavLink onClick={() => getURL(window.location.pathname)} to='/' className={style}>
+        <BiHomeAlt className='text-xl text-[#506690] hidden lg:inline-block' />
+        <h4 className='text-slate-800 px-1 w-full lg:w-3/5 text-[10px] lg:text-[12px] '>Control Board</h4>
+        <FiChevronRight className='hidden lg:inline-block'/>
       </NavLink>
 
-      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/user' className='flex items-center justify-between w-[85%] px-3 py-3 text-[12px] hover:bg-slate-300 transition-all duration-500 cursor-pointer rounded-xl mb-1'>
-        <AiOutlineUser className='text-xl  text-[#506690]' />
-        <h4 className='text-slate-800 mr-1 w-3/5'>Users</h4>
-        <FiChevronRight />
+      <NavLink  onClick={() => getURL(window.location.pathname)}  to='/user' className={style}>
+        <AiOutlineUser className='text-xl text-[#506690] hidden lg:inline-block' />
+        <h4 className='text-slate-800 px-1 w-full lg:w-3/5 text-[10px] lg:text-[12px]'>Users</h4>
+        <FiChevronRight  className='hidden lg:inline-block'/>
       </NavLink>
 
-      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/patients' className='flex items-center justify-between w-[85%] px-3 py-3 text-[12px] hover:bg-slate-300 transition-all duration-500 cursor-pointer rounded-xl mb-1'>
-        <FiUsers className='text-xl  text-[#506690]' />
-        <h4 className='text-slate-800 mr-1 w-3/5'>The Patients</h4>
-        <FiChevronRight />
+      <NavLink  onClick={() => getURL(window.location.pathname)}  to='/patients' className={style}>
+        <FiUsers className='text-xl text-[#506690] hidden lg:inline-block' />
+        <h4 className='text-slate-800 px-1 w-full lg:w-3/5 text-[10px] lg:text-[12px]'>The Patients</h4>
+        <FiChevronRight  className='hidden lg:inline-block'/>
       </NavLink>
 
-      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/reservations' className='flex items-center justify-between w-[85%] px-3 py-3 text-[12px] hover:bg-slate-300 transition-all duration-500 cursor-pointer rounded-xl mb-1'>
+      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/reservations' className={style}>
         <BsCalendar3 className='text-lg  text-[#506690]' />
-        <h4 className='text-slate-800 mr-1 w-3/5'>Reservations</h4>
-        <FiChevronRight />
+        <h4 className='text-slate-800 px-1 w-full lg:w-3/5 text-[10px] lg:text-[12px]'>Reservations</h4>
+        <FiChevronRight  className='hidden lg:inline-block'/>
       </NavLink>
 
-      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/pharmaceutical' className='flex items-center justify-between w-[85%] px-3 py-3 text-[12px] hover:bg-slate-300 transition-all duration-500 cursor-pointer rounded-xl mb-1'>
-        <MdOutlineLocalPharmacy className='text-xl  text-[#506690]' />
-        <h4 className='text-slate-800 mr-1 w-3/5'>Pharmaceutical</h4>
-        <FiChevronRight />
+      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/pharmaceutical' className={style}>
+        <MdOutlineLocalPharmacy className='text-xl text-[#506690] hidden lg:inline-block' />
+        <h4 className='text-slate-800 px-1 w-full lg:w-3/5 text-[10px] lg:text-[12px]'>Pharmaceutical</h4>
+        <FiChevronRight  className='hidden lg:inline-block'/>
       </NavLink>
 
-      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/labTests' className='flex items-center justify-between w-[85%] px-3 py-3 text-[12px] hover:bg-slate-300 transition-all duration-500 cursor-pointer rounded-xl mb-1'>
-        <MdOutlineScience className='text-xl  text-[#506690]' />
-        <h4 className='text-slate-800 mr-1 w-3/5'>Lab tests</h4>
-        <FiChevronRight />
+      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/labTests' className={style}>
+        <MdOutlineScience className='text-xl text-[#506690] hidden lg:inline-block' />
+        <h4 className='text-slate-800 px-1 w-full lg:w-3/5 text-[10px] lg:text-[12px]'>Lab tests</h4>
+        <FiChevronRight  className='hidden lg:inline-block'/>
       </NavLink>
 
-      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/xrayPictures' className='flex items-center justify-between w-[85%] px-3 py-3 text-[12px] hover:bg-slate-300 transition-all duration-500 cursor-pointer rounded-xl mb-1'>
-        <MdOutlineMonitorWeight className='text-xl  text-[#506690]' />
-        <h4 className='text-slate-800 mr-1 w-3/5'>X-ray pictures</h4>
-        <FiChevronRight />
+      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/xrayPictures' className={style}>
+        <MdOutlineMonitorWeight className='text-xl text-[#506690] hidden lg:inline-block' />
+        <h4 className='text-slate-800 px-1 w-full lg:w-3/5 text-[10px] lg:text-[12px]'>X-ray pictures</h4>
+        <FiChevronRight  className='hidden lg:inline-block'/>
       </NavLink>
 
-      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/expenses' className='flex items-center justify-between w-[85%] px-3 py-3 text-[12px] hover:bg-slate-300 transition-all duration-500 cursor-pointer rounded-xl mb-1'>
-        <RiTestTubeFill className='text-xl  text-[#506690]' />
-        <h4 className='text-slate-800 mr-1 w-3/5'>Expenses</h4>
-        <FiChevronRight />
+      <NavLink   onClick={() => getURL(window.location.pathname)}  to='/expenses' className={style}>
+        <RiTestTubeFill className='text-xl text-[#506690] hidden lg:inline-block' />
+        <h4 className='text-slate-800 px-1 w-full lg:w-3/5 text-[10px] lg:text-[12px]'>Expenses</h4>
+        <FiChevronRight  className='hidden lg:inline-block'/>
       </NavLink>
 
 

@@ -46,9 +46,8 @@ const ShowModalAdd = ({
   }
 
   let today = new Date();
-
-  let date22 = 
-      today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  let date22 =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
   const closeModal = () => {
     setShowModalAdd(false);
@@ -57,23 +56,28 @@ const ShowModalAdd = ({
     setWrong("");
   };
 
+  // Tue May 10 2022 05:56:51 GMT+0300 (Eastern European Summer Time)
+
   const submitInfo = (e) => {
     e.preventDefault();
-    
+
     const api = "https://app.medical-clinic.tk/api/reservations/create";
     // هدول هضيفهن مع الفورم في الاوبجيت الي هبعته على السيرفر { date ,  showId }
 
-    if ( date !== null && startTime !== null && endTime !== null) {
-      const test = parseISO(date);
+    if (date !== null && startTime !== null && endTime !== null) {
+      const formatYmd = (date) => date.toISOString().slice(0, 10);
+      const dateLocal = formatYmd(date);
       const info = {
         price,
-        date: test,
+        date: dateLocal,
         start_time: formatAMPM(startTime),
         end_time: formatAMPM(endTime),
         status,
         customer_id: showId,
       };
       const data = { api, info };
+
+      console.log(data);
 
       dispatch(createElement(data));
       setDone(true);
@@ -84,7 +88,8 @@ const ShowModalAdd = ({
       setWrong("wronge");
     }
   };
-  const [value, setValue] = useState();
+
+  // const [value, setValue] = useState();
 
   return showModalAdd ? (
     <div className="fixed inset-0 z-50 overflow-y-auto">
@@ -159,7 +164,12 @@ const ShowModalAdd = ({
               </LocalizationProvider>
             </div>
 
-            <DropMenuPatients showId={showId} setShowId={setShowId} status={status} setStatus={setStatus} />
+            <DropMenuPatients
+              showId={showId}
+              setShowId={setShowId}
+              status={status}
+              setStatus={setStatus}
+            />
 
             <span ref={error} className="text-sm mt-4 mx-2 text-red-700"></span>
             <button

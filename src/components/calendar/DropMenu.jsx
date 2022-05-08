@@ -16,8 +16,8 @@ const DropMenu = ({ setYears }) => {
   //  For Exist From The Form
   const handleSelectMenu = useCallback((e) => {
     if (!selectMenuRef.current.contains(e.target)) {
-      setState(false)
       setYears(selectedItem.item)
+      setState(false)
     }
   }, [setYears, selectedItem.item])
 

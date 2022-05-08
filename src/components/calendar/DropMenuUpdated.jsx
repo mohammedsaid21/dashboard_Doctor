@@ -67,6 +67,7 @@ const DropMenuUpdated = ({
     item: menuItems[0],
     idx: 0,
   });
+
   const [state, setState] = useState(false);
   const selectMenuRef = useRef();
 

@@ -28,16 +28,16 @@ const DropMenuPatients = ({showId, setShowId, status, setStatus }) => {
 
   const [id, setId] = useState('');
   const [statusa, setStatusa] = useState('')
-  const [namePat, setNamePat] = useState('')
+  // const [namePat, setNamePat] = useState('')
 
   const handleChange = (event) => {
     setShowId(event.target.value);
-    console.log(event.target.value)
+    setId(event.target.value);
   }
   
   const handleChangeStatus = (e) => {
     setStatus(e.target.value)
-    console.log(e.target.value)
+    setStatusa(e.target.value)
   }
 
   // useEffect( () => {

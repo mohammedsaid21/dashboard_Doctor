@@ -214,20 +214,22 @@ body {
 }
 
 /* Nav */
-.sidebar {
-  /* flex: .8; */
-  /* position: fixed;
-  top: 125px; */
-  /* top: 0;
-  left: 0;
-  */
 
+.sidebar {
   transition: 1s all;
   overflow-y: scroll;
   overflow-x: hidden;
   position: sticky;
   top: 80px;
   height: 75vh;
+  flex: 4;
+}
+
+.w-sidebar {
+  @apply lg:w-[230px] w-[330px];
+}
+.w-sidebar-sm {
+  @apply lg:w-[0px] w-[0px];
 }
 
 .sidebar::-webkit-scrollbar {
