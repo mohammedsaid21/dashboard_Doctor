@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getOneElement } from "../../redux/userSlice";
+import { getCustomer, getOneElement, objectDetails } from "../../redux/userSlice";
 import DetailsCalender from "./DetailsCalender";
 import DropMenu from "./DropMenu";
 import { Datepicker } from "./picker/DatePicker";
@@ -71,7 +71,7 @@ const Calender = () => {
 
   const [showId, setShowId] = useState();
   const [user_id, setUser_id] = useState();
-  const [idRes, setIdRes] = useState();
+  const [idResDelete, setIdResDelete] = useState();
   const [deleteDone, setDeleteDone] = useState(false);
 
   useEffect(() => {
@@ -91,8 +91,6 @@ const Calender = () => {
 
   useEffect(() => {
     let isApiSubscribed = true;
-
-    console.log("year: ", years, " month: ", month);
 
     const api = `https://app.medical-clinic.tk/api/reservations/filter?year=${years}&month=${month}`;
     // `https://app.medical-clinic.tk/api/reservations/currentmonth`;
@@ -116,18 +114,20 @@ const Calender = () => {
   };
 
   const dispatch = useDispatch();
+  const  [updatedObject, setUpdatedObject] = useState()
 
-  const showDetails = (e) => {
-    //
+  const showDetails = async (e) => {
     const api = `https://app.medical-clinic.tk/api/reservations/${e.id}/show`;
     const token = JSON.parse(sessionStorage.getItem("token"));
 
-    axios
-      .get(api, { headers: { Authorization: `Bearer ${token}` } })
+    await axios.get(api, { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
-        console.log(res.data.reservation);
-        setIdRes(res.data.reservation.id);
-        setDetails(res.data.reservation);
+        console.log(res.data);
+        setIdResDelete(res.data.reservation.id);
+        setUpdatedObject(e)
+        dispatch(objectDetails(res.data))
+        dispatch(getCustomer(res.data.customers))
+        setDetails(res.data);
         setDone(false);
       })
       .catch((error) => {
@@ -211,7 +211,7 @@ const Calender = () => {
         setModalDetails={setModalDetails}
         modalDetails={modalDetails}
         setDone={setDone}
-        idRes={idRes} setDeleteDone={setDeleteDone}
+        idRes={idResDelete} setDeleteDone={setDeleteDone} updatedObject={updatedObject}  setUpdatedObject={setUpdatedObject}
       />
       <ToastContainer />
     </div>

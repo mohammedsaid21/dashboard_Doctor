@@ -1,17 +1,16 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { deleteElement } from '../../redux/userSlice'
+import { useDispatch } from 'react-redux';
 
-const DeleteXray = ({ showModalDelete, setShowModalDelete, userInfo, setDone }) => {
-
+const DeleteX = ({showModalDelete, setShowModalDelete, dateInfo, setDone }) => {
+  
   const dispatch = useDispatch()
   const deleteUser = () => {
-    const api = `https://app.medical-clinic.tk/api/xrays/${userInfo.id}/delete`;
+    // const api = `https://app.medical-clinic.tk/api/xrays/${userInfo.id}/delete`;
 
-    const data = {api , userInfo}
-    dispatch(deleteElement(data))
-    setDone(true)
-    setShowModalDelete(false)
+    // const data = {api , userInfo}
+    // dispatch(deleteElement(data))
+    // setDone(true)
+    // setShowModalDelete(false)
   }
 
   return (
@@ -28,7 +27,7 @@ const DeleteXray = ({ showModalDelete, setShowModalDelete, userInfo, setDone }) 
               </div>
               <div className="mt-2 text-center sm:ml-4 sm:text-left">
                 <h4 className="text-lg font-medium text-gray-800">
-                  Delete account {userInfo && userInfo.name} ?
+                  Delete account  ?
                 </h4>
                 <p className="mt-2 text-[15px] leading-relaxed text-gray-500">
                   Are You Sure ! 
@@ -36,7 +35,7 @@ const DeleteXray = ({ showModalDelete, setShowModalDelete, userInfo, setDone }) 
                 </p>
                 <div className="items-center gap-2 mt-3 sm:flex">
                   <button className="w-full mt-2 p-2.5 flex-1 text-white bg-red-600 rounded-md outline-none ring-offset-2 ring-red-600 focus:ring-2"
-                    onClick={() => deleteUser(userInfo)}
+                    // onClick={() => deleteUser(userInfo)}
                   >
                     Delete
                   </button>
@@ -55,4 +54,4 @@ const DeleteXray = ({ showModalDelete, setShowModalDelete, userInfo, setDone }) 
   )
 }
 
-export default DeleteXray
+export default DeleteX

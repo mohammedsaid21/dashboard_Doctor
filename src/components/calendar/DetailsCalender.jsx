@@ -1,61 +1,62 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import DropMenuPatients from "./DropMenuPatients";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextField from "@mui/material/TextField";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import DropMenuUpdated from "./DropMenuUpdated";
 import axios from "axios";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import XrayTable from "./modals/XrayTable";
+import { updateInfo } from "../../redux/userSlice";
 
 const DetailsCalender = ({
-  setModalDetails,
-  modalDetails,
-  setDone,
-  details,
-  setDetails,
-  idRes, setDeleteDone
+  setModalDetails, modalDetails,  setDone, details,
+  setDetails, idRes, setDeleteDone, updatedObject, setUpdatedObject
 }) => {
   const [wronge, setWrong] = useState("");
-  const dispatch = useDispatch();
   const error = useRef();
   const [flag, setFlag] = useState(false);
+  const [showModalDelete ,setShowModalDelete ] = useState(false)
 
   const onlySpaces = (str) => str.trim().length > 2;
 
-  let { date, start_time, end_time, price, status, customer_id } = details;
+  const { reservation } = useSelector(state => state.user)
+  const { customer } = useSelector(state => state.user)
+
+  useEffect(() => {
+    if (reservation) customer.map(person => (person.id === reservation.reservation.customer_id) ? setShowName(person.name) : "")
+  }, [reservation, customer])
 
   const [price1, setPrice1] = useState(); // Done
-  const [date2, setDate2] = useState(); // Done But It Not Up Dated In The Label
-  const [startTime2, setStartTime2] = useState();
-  const [endTime2, setEndTime2] = useState();
-  const [status2, setStatus2] = useState("");
-  const [customer_id2, setCustomer_id2] = useState("");
+  const [date1, setDate1] = useState(); // Done But It Not Up Dated In The Label
+  const [startTime1, setStartTime1] = useState();
+  const [end_time1, setEndTime1] = useState();
+  const [status1, setStatus1] = useState("");
 
-  // useEffect(()=> {
-  //   setStartTime2(start_time)
-  // }, [start_time])
+  // let {start_time, end_time, date, customer_id, price, status, user_id } = reservation.reservation
+
+
+  const handleChange2 = (e) => {
+    // setUpdatedObject({ ...updatedObject, [e.target.date]: e.target.value })
+    // console.log(updatedObject)
+    setFlag(true)
+  }
 
   const upDateInfo = () => {
-    console.log(status);
-    console.log(customer_id);
+    const api = 'https://app.medical-clinic.tk/api/reservations/update'
+    // setUpdatedObject({start_time: startTime1 || reservation.reservation.start_time , end_time: end_time1 || reservation.reservation.end_time, date: date1 || reservation.reservation.date, price: price1 || reservation.reservation.price, status: status1 || reservation.reservation.status, customer_id: reservation.reservation.customer_id, user_id: reservation.reservation.user_id })
 
-    // const api = 'https://app.medical-clinic.tk/api/reservations/update'
-    // const updatedObject = {}
+      console.log(updatedObject)
 
-    // if (flag) {
-    //   const data = { api, updatedObject }
-    //   dispatch(updateInfo(data))
-    //   setDone(true)
-    //   setModalDetails(false)
-    //   setFlag(false)
-    // } else {
-    //   error.current.innerHTML = 'Be Sure From You Info'
-    //   setWrong('wronge')
-    // }
+    if (reservation.reservation.price && reservation.reservation.date) {
+      const data = { api, updatedObject }
+      // dispatch(updateInfo(data))
+      setDone(true)
+      setModalDetails(false)
+      setFlag(false)
+      // setUpdatedObject(null)
+    } else {
+      error.current.innerHTML = 'Be Sure From You Info'
+      setWrong('wronge')
+    }
   };
 
   function formatAMPM(date) {
@@ -69,56 +70,27 @@ const DetailsCalender = ({
     return strTime;
   }
 
+  const formatYmd = (date) => date.toISOString().slice(0, 10);
+
   const closeModal = () => {
     setModalDetails(false);
-    // setStartTime('')
-    // setEndTime('')
+    setUpdatedObject(null)
     setWrong("");
   };
 
-  const formatYmd = (date) => date.toISOString().slice(0, 10);
-
-  const [patients, setPatients] = useState([]);
-
-  useEffect(() => {
-    let isApiSubscribed = true;
-    const api = `https://app.medical-clinic.tk/api/customers`;
-    const token = JSON.parse(sessionStorage.getItem("token"));
-    axios
-      .get(api, { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => {
-        if (isApiSubscribed) setPatients(res.data.data);
-        setDone(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    return () => (isApiSubscribed = false);
-  }, [setDone]);
-
   const [showName, setShowName] = useState("");
-
   const handleChange = (event) => {
-    setShowName(event.target.value);
-  };
+    setShowName(event.target.value)
+  }
 
-  useEffect(() => {
-    console.log(showName);
-    setDone(true);
-  }, [showName, setDone]);
-
-  const handleChangeStatus = (e) => {
-    // setStatus(e.target.value)
-  };
 
   const deleteRes = () => {
-    console.log("Test");
     const api = `https://app.medical-clinic.tk/api/reservations/${idRes}/delete`;
 
     const token = JSON.parse(sessionStorage.getItem("token"));
     axios
       .delete(api, { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => {
+      .then(() => {
         setDone(true);
         setModalDetails(false);
         setFlag(false);
@@ -128,7 +100,19 @@ const DetailsCalender = ({
         console.log(error);
       });
   };
-  //
+
+  // const inputProps = {
+  //   step: 300,
+  // }
+
+  const [statusa, setStatusa] = useState('')
+  const handleChangeStatus = (e) => {
+    setStatusa(e.target.value)
+    setStatus1(e.target.value)
+  }
+
+  const [showAddXray, setShowAddXray] = useState(false)
+
 
   return modalDetails ? (
     <div className="fixed inset-0 h -[9 5%] z-50 overflow-y-auto">
@@ -150,19 +134,33 @@ const DetailsCalender = ({
                       You Can UpDate The Data
                     </p>
 
-                    <div className="">
+                    <div className="w-full">
                       {/* ------------------------------------ */}
-                      <TextField
-                        className="w-1/2 my-4 "
-                        sx={{ minWidth: 200 }}
-                        id="price"
-                        label="Price"
-                        variant="outlined"
-                        defaultValue={price}
-                        onChange={(e) => setPrice1(e.target.value)}
-                      />
+                      <div className="flex justify-between w-full ">
+                        <TextField
+                          className="w-[49%] my-4 "
+                          sx={{ minWidth: 200 }}
+                          id="price"
+                          label="Price"
+                          variant="outlined"
+                          defaultValue={reservation.reservation.price}
+                          onChange={(e) => setPrice1(e.target.value)}
+                        />
 
-                      <LocalizationProvider
+                        <TextField
+                          className="w-[49%] my-4 "
+                          sx={{ minWidth: 200 }}
+                          id="Date"
+                          label="Date" name="date"
+                          variant="outlined"
+                          defaultValue={reservation.reservation.date}
+                          onChange={(e) => handleChange2(e)}
+                        />
+                      </div>
+
+{/* <input type='text' name='date' defaultValue={reservation.reservation.date}onChange={(e) => handleChange2(e)} /> */}
+
+                      {/* <LocalizationProvider
                         sx={{ maxWidth: 180 }}
                         dateAdapter={AdapterDateFns}
                       >
@@ -170,60 +168,91 @@ const DetailsCalender = ({
                           sx={{ maxWidth: 180 }}
                           className="w-1/2 bg-gray-900"
                           label="Date The Res"
-                          defaultValue={date}
+                          defaultValue={reservation.reservation.start_time}
                           onChange={(newValue) => {
-                            setDate2(formatYmd(newValue));
+                            setDate1(formatYmd(newValue));
                           }}
                           renderInput={(params) => <TextField {...params} />}
                         />
-                      </LocalizationProvider>
+                      </LocalizationProvider> */}
 
-                      {/* <TextField className="w-1/2 my-4 " sx={{ minWidth: 200 }} id="startTime" label="start Time" variant="outlined" defaultValue={startTime2}
-                          onChange={e => setStartTime2(e.target.value)} /> */}
+                      {/* <DatePicker
+                      defaultValue={reservation.start_time}
+                      onChange={newDate => setDate2(formatYmd(newDate))}
+                      renderInput={props => <MyText {...props} />}
+                    /> */}
 
-                      <input
+                      {/* <TextField className="w-1/2 my-4 " sx={{ minWidth: 200 }}  variant="outlined" defaultValue={startTime1} onChange={e => setStartTime1(e.target.value)}  id="time" type="time" inputProps={inputProps}/>  */}
+
+                      <div className="flex justify-between w-full">
+                        <input
+                          className="w-[49%] px-2 py-4 border-2 border-gray-400 my-2 focus:outline-blue-400"
+                          type="text"
+                          defaultValue={reservation.reservation.start_time}
+                          onChange={(e) => setStartTime1(e.target.value)}
+                        />
+
+                        <input
+                          className="w-[49%] px-2 py-4 border-2 border-gray-400 my-2 focus:outline-blue-400"
+                          type="text"
+                          defaultValue={reservation.reservation.end_time}
+                          onChange={(e) => setEndTime1(e.target.value)}
+                        />
+                      </div>
+
+                      {/* <input
                         className="w-1/2 px-2 py-4 border-2 border-gray-400 my-2 focus:outline-blue-400"
                         type="text"
                         defaultValue={start_time}
-                        onChange={(e) => setStartTime2(e.target.value)}
-                      />
-                      <input
-                        className="w-1/2 px-2 py-4 border-2 border-gray-400 my-2 focus:outline-blue-400"
-                        type="text"
-                        defaultValue={end_time}
-                        onChange={(e) => setEndTime2(e.target.value)}
-                      />
+                        onChange={(e) => setStartTime1(e.target.value)}
+                      /> */}
+
                       {/* 
-                        <TextField className="w-1/2 my-4 " sx={{ minWidth: 200 }} id="End Time" label="End Time " variant="outlined" defaultValue={end_time} onChange={e => setEndTime2(e.target.value)} /> */}
+                        <TextField className="w-1/2 my-4 " sx={{ minWidth: 200 }} id="End Time" label="End Time " variant="outlined" defaultValue={end_time} onChange={e => setEndTime1(e.target.value)} /> */}
 
-                      {/* <DropMenuUpdated  status2={status2} setStatus2={setStatus2} customer_id2={customer_id2} setCustomer_id2={setCustomer_id2} /> */}
+                      {/* <DropMenuUpdated  status1={status1} setStatus1={setStatus1} customer_id1={customer_id1} setCustomer_id1={setCustomer_id1} /> */}
 
-                      <Box className="w-1/2 ">
-                        <FormControl fullWidth>
-                          <InputLabel id="demo-simple-select-label">
-                            {showName}
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={showName}
-                            label="Patient"
-                            onChange={handleChange}
-                          >
-                            {patients.map((patient) => (
-                              <MenuItem key={patient.id} value={patient.name}>
-                                {patient.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </Box>
+                      <div className="flex justify-between ">
+                        <Box className="w-1/2">
+                          <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">
+                              {showName}
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={showName}
+                              label="Patient"
+                              onChange={handleChange}
+                            >
+                              {customer.map((patient) => (
+                                <MenuItem key={patient.id} value={patient.name} >
+                                  {patient.name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Box>
+
+                        <Box className='w-1/2 ' >
+                          <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">status</InputLabel>
+                            <Select labelId="demo-simple-select-label"
+                              id="demo-simple-select" value={statusa} label="status" onChange={handleChangeStatus}
+                            >
+                              <MenuItem value='reservation'>Reservation</MenuItem>
+                              <MenuItem value='visted'>Visted</MenuItem>
+                              <MenuItem value='nonVisited'>NonVisited</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </Box>
+                      </div>
 
                       {/* <LocalizationProvider className="w-1/2" dateAdapter={AdapterDateFns}>
                           <TimePicker sx={{ maxWidth: 160 }}
                             label="Start Time" defaultValue={start_time}
                             onChange={(newValue) => {
-                              setStartTime2(formatAMPM(newValue));
+                              setStartTime1(formatAMPM(newValue));
                             }}
                             renderInput={(params) => <TextField {...params} />}
                           />
@@ -238,6 +267,10 @@ const DetailsCalender = ({
                             renderInput={(params) => <TextField {...params} />}
                           />
                         </LocalizationProvider> */}
+                        {/*  */}
+                          <XrayTable showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete}  setDone={setDone} />
+                          {/* dateInfo={dateInfo} */}
+                        {/*  */}
 
                       <br />
                       <span

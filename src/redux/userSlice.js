@@ -153,7 +153,8 @@ const initialState = {
   info: {},
   alertShow: false,
   data: [],
-  reservation: {}
+  reservation: {},
+  customer: []
 };
 
 export const userSlice = createSlice({
@@ -166,6 +167,14 @@ export const userSlice = createSlice({
     },
     showInfo: (state, action) => {
       state.info = action.payload;
+    },
+    objectDetails: (state, action) => {
+      state.reservation = action.payload
+      // console.log(action.payload)
+    },
+    getCustomer: (state, action) => {
+      state.customer = action.payload
+      // console.log(action.payload)
     },
   },
   extraReducers: {
@@ -290,6 +299,6 @@ export const userSlice = createSlice({
 // Bearer
 
 // Action creators are generated for each case reducer function
-export const { login, showInfo } = userSlice.actions;
+export const { login, showInfo, objectDetails, getCustomer } = userSlice.actions;
 
 export default userSlice.reducer;

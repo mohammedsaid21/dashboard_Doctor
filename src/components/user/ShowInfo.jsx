@@ -9,7 +9,7 @@ const ShowInfo = ({ showModal, setShowModal, userInfo, setUserInfo, setDone }) =
   const [wronge, setWrong] = useState('')
 
   let { id, name, phone, email, gender, birthdate, image, user_type, password } = userInfo
-
+// console.log(userInfo)
   const dispatch = useDispatch()
   const error = useRef()
   const [flag, setFlag] = useState(false)

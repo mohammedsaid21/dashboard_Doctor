@@ -30,20 +30,7 @@ const DropMenuUpdated = ({
     return () => (isApiSubscribed = false);
   }, []);
 
-  const showDetails = (e) => {
-    console.log(e);
 
-    // const api = `https://app.medical-clinic.tk/api/reservations/${e.id}/show`
-    // const token = JSON.parse(sessionStorage.getItem('token'));
-
-    // axios.get(api, { headers: { "Authorization": `Bearer ${token}` } })
-    //   .then(res => {
-    //     console.log(res.data.reservation)
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   });
-  };
 
   const [id, setId] = useState(customer_id2);
   const [statusa, setStatusa] = useState(status2);
@@ -96,7 +83,6 @@ const DropMenuUpdated = ({
         aria-expanded="true"
         onClick={() => {
           setState(!state);
-          showDetails(id);
         }}
       >
         {selectedItem.item}

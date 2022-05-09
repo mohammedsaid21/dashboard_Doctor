@@ -8,9 +8,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { parseISO } from "date-fns";
-import { Box } from "@mui/system";
+
 
 const ShowModalAdd = ({
   setDone,
@@ -19,6 +17,7 @@ const ShowModalAdd = ({
   showId,
   setShowId,
 }) => {
+
   const [date, setDate] = useState("");
   const [startTime, setStartTime] = useState("10:00");
   const [endTime, setEndTime] = useState("10:30");
@@ -30,8 +29,6 @@ const ShowModalAdd = ({
   const [wronge, setWrong] = useState("");
 
   const dispatch = useDispatch();
-
-  // start_time(pin):"2022-05-07T00:14:00.693Z"
 
   function formatAMPM(datez) {
     let hours = datez.getHours();
@@ -45,8 +42,7 @@ const ShowModalAdd = ({
   }
 
   let today = new Date();
-  let date22 =
-    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  let date22 = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
   const closeModal = () => {
     setShowModalAdd(false);
@@ -69,13 +65,13 @@ const ShowModalAdd = ({
       const info = {
         price,
         date: dateLocal,
-        start_time: formatAMPM(startTime),
-        end_time: formatAMPM(endTime),
-        status,
+        start_time: startTime,
+        end_time: endTime,
+        status: status,
         customer_id: showId,
       };
-      const data = { api, info };
 
+      const data = { api, info };
       console.log(data);
 
       dispatch(createElement(data));
@@ -90,6 +86,10 @@ const ShowModalAdd = ({
 
   // const [value, setValue] = useState();
 
+  const inputProps = {
+    step: 300,
+  }
+
   return showModalAdd ? (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div
@@ -103,37 +103,35 @@ const ShowModalAdd = ({
           <form onSubmit={submitInfo} className="mt-3 flex flex-wrap ">
             <div className="flex w-full items-center justify-between">
 
-            <TextField
-              className="w-1/2 my-4 "
-              sx={{ minWidth: 500 }}
-              id="outlined-basic"
-              label="Outlined"
-              variant="outlined"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
+              <TextField
+                className="w-1/2 my-8 "
+                // sx={{ minWidth: 500 }}
+                id="outlined-basic"
+                label="Outlined"
+                variant="outlined"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
 
-            <LocalizationProvider
-              sx={{ maxWidth: 180 }}
-              dateAdapter={AdapterDateFns}
-            >
-              <DatePicker
-                sx={{ maxWidth: 180 }}
-                className="w-1/2 bg-gray-900"
-                label="Date The Res"
-                // defaultCalendarMonth={date}
-                value={date}
-                onChange={(newValue) => {
-                  setDate(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} />}
+              <LocalizationProvider sx={{ maxWidth: 180 }}
+                dateAdapter={AdapterDateFns} >
+                <DatePicker
+                  // sx={{ maxWidth: 180 }}
+                  className="w-1/2 bg-gray-900"
+                  label="Date The Res"
+                  // defaultCalendarMonth={date}
+                  value={date}
+                  onChange={(newValue) => {
+                    setDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
                 />
-            </LocalizationProvider>
-                </div>
+              </LocalizationProvider>
+            </div>
             {/*  */}
             {/* minDate={date22} */}
             <div className="w-1/2 my-2">
-              <LocalizationProvider
+              {/* <LocalizationProvider
                 className="w-1/2"
                 dateAdapter={AdapterDateFns}
               >
@@ -146,10 +144,16 @@ const ShowModalAdd = ({
                   }}
                   renderInput={(params) => <TextField {...params} />}
                 />
-              </LocalizationProvider>
+              </LocalizationProvider> */}
             </div>
 
-            <div className="w-1/2 my-2">
+              <div className="flex w-full justify-between my-2">
+                <TextField className="w-[40%] " variant="outlined" defaultValue={startTime} onChange={e => setStartTime(e)} id="time" type="time" inputProps={inputProps} />
+
+                <TextField className="w-[40%] " variant="outlined" defaultValue={endTime} onChange={e => setEndTime(e)} id="time" type="time" inputProps={inputProps} />
+              </div>
+
+            {/* <div className="w-1/2 my-2">
               <LocalizationProvider
                 className="w-1/2"
                 dateAdapter={AdapterDateFns}
@@ -163,8 +167,8 @@ const ShowModalAdd = ({
                   }}
                   renderInput={(params) => <TextField {...params} />}
                 />
-              </LocalizationProvider>
-            </div>
+              </LocalizationProvider> 
+            </div>*/}
 
             <DropMenuPatients
               showId={showId}

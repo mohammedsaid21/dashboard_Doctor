@@ -8,7 +8,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 
 function App() {
-
+// بتقدر تبعت الstart time & end يكونوا بس دقايق وساعات ؟  
+// وكمان كلمة السر ليش ما بتيحي مع الريكويست
+//  الحذف تكون دبل كليك
   const [userInfo4 , setUserInfo4] = useState('')
   const userInfo10 = useSelector(state => state.user.userInfo)
   const [completed, setcompleted] = useState(true);

@@ -40,10 +40,10 @@ const DropMenuPatients = ({showId, setShowId, status, setStatus }) => {
     setStatusa(e.target.value)
   }
 
-  // useEffect( () => {
-  //   setShowId(id)
-  //   setStatus(statusa)
-  // }, [setShowId, id, statusa, setStatus])
+  useEffect( () => {
+    setShowId(id)
+    setStatus(statusa)
+  }, [setShowId, id, statusa, setStatus])
 
 
   return (

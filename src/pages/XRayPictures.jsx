@@ -13,8 +13,6 @@ import DeleteXray from '../components/xray/DeleteXray'
 
 const XRayPictures = () => {
 
-  const dispatch = useDispatch()
-
   const [dataUser, setDataUser] = useState([])
   const [userInfo, setUserInfo] = useState({})
   const [showModal, setShowModal] = useState(false)
@@ -108,6 +106,7 @@ const XRayPictures = () => {
           </div>
         </div>
 
+
         <div className='w-full mx-auto'>
           <div className=" px-4 py-5 overflow-x-auto w-[100%] mx-auto">
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -153,8 +152,6 @@ const XRayPictures = () => {
         </div>
         <ShowInfo setDone={setDone} userInfo={userInfo} setUserInfo={setUserInfo} showModal={showModal} setShowModal={setShowModal} />
         <DeleteXray setDone={setDone} userInfo={userInfo} showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} />
-
-
       </div>
       <ToastContainer />
     </div>
