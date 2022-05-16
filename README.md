@@ -2,6 +2,33 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+<h3>What is The Project ?</h3>
+      <p>
+        TThe project is a control panel for a doctor's clinic The project is
+        made by interaction and you can do all the operations of adding,
+        deleting, modifying and searching It is also linked with the API and all
+        data is linked together by the Redux Tool Kit
+      </p>
+      <h4>What I Used In The Project</h4>
+      <ul>
+        <li>-&gt; React js</li>
+        <li>-&gt; React Hooks</li>
+        <li>-&gt; React Router Dom</li>
+        <li>-&gt; Redux ToolKit</li>
+        <li>-&gt; Rest API</li>
+        <li>-&gt; HTML CSS JS</li>
+        <li>-&gt; Tailwind css</li>
+      </ul>
+      <img src='/image/1.png' alt='' />
+      <img src='/image/3.png' alt='' />
+      <img src='/image/4.png' alt='' />
+      <img src='/image/5.png' alt='' />
+      <img src='/image/6.png' alt='' />
+      <img src='/image/7.png' alt='' />
+      <img src='/image/8.png' alt='' />
+      <img src='/image/9.png' alt='' />
+      <img src='/image/10.png' alt='' />
+
 ## Available Scripts
 
 In the project directory, you can run:
