@@ -9,6 +9,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
         deleting, modifying and searching It is also linked with the API and all
         data is linked together by the Redux Tool Kit
       </p>
+      ----------------
       <h4>What I Used In The Project</h4>
       <ul>
         <li>-&gt; React js</li>
